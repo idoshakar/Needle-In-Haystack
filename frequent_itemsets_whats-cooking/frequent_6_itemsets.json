@@ -1,0 +1,756 @@
+{
+    "butter + eggs + flour + milk substitute + salt + sugar": {
+        "items": [
+            "butter",
+            "eggs",
+            "flour",
+            "milk substitute",
+            "salt",
+            "sugar"
+        ],
+        "count": 118,
+        "support": 0.002966762206466536,
+        "support_percentage": "0.30%"
+    },
+    "garlic + ginger + red bell pepper + sesame oil + soy sauce + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "red bell pepper",
+            "sesame oil",
+            "soy sauce",
+            "welsh onion"
+        ],
+        "count": 113,
+        "support": 0.002841051943480666,
+        "support_percentage": "0.28%"
+    },
+    "garlic + ginger + sesame oil + soy sauce + water + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "sesame oil",
+            "soy sauce",
+            "water",
+            "welsh onion"
+        ],
+        "count": 114,
+        "support": 0.00286619399607784,
+        "support_percentage": "0.29%"
+    },
+    "garlic + ginger + sesame oil + soy sauce + sugar + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "sesame oil",
+            "soy sauce",
+            "sugar",
+            "welsh onion"
+        ],
+        "count": 138,
+        "support": 0.0034696032584100164,
+        "support_percentage": "0.35%"
+    },
+    "corn + garlic + ginger + soy sauce + water + welsh onion": {
+        "items": [
+            "corn",
+            "garlic",
+            "ginger",
+            "soy sauce",
+            "water",
+            "welsh onion"
+        ],
+        "count": 101,
+        "support": 0.0025393473123145774,
+        "support_percentage": "0.25%"
+    },
+    "corn + garlic + ginger + sesame oil + soy sauce + welsh onion": {
+        "items": [
+            "corn",
+            "garlic",
+            "ginger",
+            "sesame oil",
+            "soy sauce",
+            "welsh onion"
+        ],
+        "count": 119,
+        "support": 0.00299190425906371,
+        "support_percentage": "0.30%"
+    },
+    "cinnamon + coriander + cumin + garlic + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 127,
+        "support": 0.003193040679841102,
+        "support_percentage": "0.32%"
+    },
+    "coriander + cumin + garlic + olive oil + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "olive oil",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 141,
+        "support": 0.003545029416201539,
+        "support_percentage": "0.35%"
+    },
+    "coriander + cumin + garlic + red bell pepper + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "red bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 122,
+        "support": 0.0030673304168552322,
+        "support_percentage": "0.31%"
+    },
+    "cherry tomato + coriander + cumin + garlic + salt + welsh onion": {
+        "items": [
+            "cherry tomato",
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 137,
+        "support": 0.0034444612058128427,
+        "support_percentage": "0.34%"
+    },
+    "coriander + cumin + garlic + green bell pepper + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "green bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 170,
+        "support": 0.004274148941519586,
+        "support_percentage": "0.43%"
+    },
+    "coriander + cumin + garlic + mollusks + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "mollusks",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 105,
+        "support": 0.0026399155227032735,
+        "support_percentage": "0.26%"
+    },
+    "coriander + cumin + ginger + salt + water + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "water",
+            "welsh onion"
+        ],
+        "count": 117,
+        "support": 0.002941620153869362,
+        "support_percentage": "0.29%"
+    },
+    "coriander + cumin + ginger + green bell pepper + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "ginger",
+            "green bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 109,
+        "support": 0.0027404837330919697,
+        "support_percentage": "0.27%"
+    },
+    "cinnamon + coriander + cumin + garlic + ginger + salt": {
+        "items": [
+            "cinnamon",
+            "coriander",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt"
+        ],
+        "count": 123,
+        "support": 0.003092472469452406,
+        "support_percentage": "0.31%"
+    },
+    "cinnamon + cloves + coriander + cumin + ginger + salt": {
+        "items": [
+            "cinnamon",
+            "cloves",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt"
+        ],
+        "count": 146,
+        "support": 0.0036707396791874087,
+        "support_percentage": "0.37%"
+    },
+    "cardamom + cinnamon + cloves + coriander + cumin + salt": {
+        "items": [
+            "cardamom",
+            "cinnamon",
+            "cloves",
+            "coriander",
+            "cumin",
+            "salt"
+        ],
+        "count": 102,
+        "support": 0.0025644893649117515,
+        "support_percentage": "0.26%"
+    },
+    "cardamom + cinnamon + cloves + cumin + ginger + salt": {
+        "items": [
+            "cardamom",
+            "cinnamon",
+            "cloves",
+            "cumin",
+            "ginger",
+            "salt"
+        ],
+        "count": 111,
+        "support": 0.0027907678382863175,
+        "support_percentage": "0.28%"
+    },
+    "coriander + cumin + garlic + ginger + mollusks + salt": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "ginger",
+            "mollusks",
+            "salt"
+        ],
+        "count": 113,
+        "support": 0.002841051943480666,
+        "support_percentage": "0.28%"
+    },
+    "chicken + coriander + cumin + garlic + ginger + salt": {
+        "items": [
+            "chicken",
+            "coriander",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt"
+        ],
+        "count": 120,
+        "support": 0.003017046311660884,
+        "support_percentage": "0.30%"
+    },
+    "cumin + garlic + ginger + salt + turmeric + welsh onion": {
+        "items": [
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "turmeric",
+            "welsh onion"
+        ],
+        "count": 115,
+        "support": 0.0028913360486750137,
+        "support_percentage": "0.29%"
+    },
+    "butter + coriander + cumin + garlic + salt + welsh onion": {
+        "items": [
+            "butter",
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 102,
+        "support": 0.0025644893649117515,
+        "support_percentage": "0.26%"
+    },
+    "coriander + cumin + garlic + pepper + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 122,
+        "support": 0.0030673304168552322,
+        "support_percentage": "0.31%"
+    },
+    "garlic + ginger + salt + soy sauce + sugar + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "salt",
+            "soy sauce",
+            "sugar",
+            "welsh onion"
+        ],
+        "count": 113,
+        "support": 0.002841051943480666,
+        "support_percentage": "0.28%"
+    },
+    "garlic + ginger + salt + soy sauce + vinegar + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "salt",
+            "soy sauce",
+            "vinegar",
+            "welsh onion"
+        ],
+        "count": 100,
+        "support": 0.0025142052597174032,
+        "support_percentage": "0.25%"
+    },
+    "garlic + ginger + sesame oil + soy sauce + vinegar + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "sesame oil",
+            "soy sauce",
+            "vinegar",
+            "welsh onion"
+        ],
+        "count": 145,
+        "support": 0.003645597626590235,
+        "support_percentage": "0.36%"
+    },
+    "cloves + coriander + cumin + red bell pepper + salt + welsh onion": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "red bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 100,
+        "support": 0.0025142052597174032,
+        "support_percentage": "0.25%"
+    },
+    "garlic + ginger + salt + sesame oil + soy sauce + welsh onion": {
+        "items": [
+            "garlic",
+            "ginger",
+            "salt",
+            "sesame oil",
+            "soy sauce",
+            "welsh onion"
+        ],
+        "count": 152,
+        "support": 0.003821591994770453,
+        "support_percentage": "0.38%"
+    },
+    "ginger + salt + sesame oil + soy sauce + vinegar + welsh onion": {
+        "items": [
+            "ginger",
+            "salt",
+            "sesame oil",
+            "soy sauce",
+            "vinegar",
+            "welsh onion"
+        ],
+        "count": 115,
+        "support": 0.0028913360486750137,
+        "support_percentage": "0.29%"
+    },
+    "ginger + salt + sesame oil + soy sauce + water + welsh onion": {
+        "items": [
+            "ginger",
+            "salt",
+            "sesame oil",
+            "soy sauce",
+            "water",
+            "welsh onion"
+        ],
+        "count": 110,
+        "support": 0.002765625785689144,
+        "support_percentage": "0.28%"
+    },
+    "chicken + coriander + cumin + garlic + salt + welsh onion": {
+        "items": [
+            "chicken",
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 167,
+        "support": 0.004198722783728064,
+        "support_percentage": "0.42%"
+    },
+    "cloves + coriander + cumin + salt + water + welsh onion": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "salt",
+            "water",
+            "welsh onion"
+        ],
+        "count": 119,
+        "support": 0.00299190425906371,
+        "support_percentage": "0.30%"
+    },
+    "cloves + coriander + cumin + green bell pepper + salt + welsh onion": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "green bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 125,
+        "support": 0.0031427565746467542,
+        "support_percentage": "0.31%"
+    },
+    "cumin + garlic + ginger + salt + water + welsh onion": {
+        "items": [
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "water",
+            "welsh onion"
+        ],
+        "count": 103,
+        "support": 0.0025896314175089252,
+        "support_percentage": "0.26%"
+    },
+    "cinnamon + coriander + cumin + ginger + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 135,
+        "support": 0.0033941771006184944,
+        "support_percentage": "0.34%"
+    },
+    "cinnamon + cumin + garlic + ginger + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 115,
+        "support": 0.0028913360486750137,
+        "support_percentage": "0.29%"
+    },
+    "coriander + cumin + garlic + ginger + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 204,
+        "support": 0.005128978729823503,
+        "support_percentage": "0.51%"
+    },
+    "coriander + cumin + ginger + mollusks + salt + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "ginger",
+            "mollusks",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 126,
+        "support": 0.0031678986272439284,
+        "support_percentage": "0.32%"
+    },
+    "cooking oil + coriander + cumin + garlic + salt + welsh onion": {
+        "items": [
+            "cooking oil",
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 146,
+        "support": 0.0036707396791874087,
+        "support_percentage": "0.37%"
+    },
+    "cardamom + cinnamon + cloves + cumin + salt + welsh onion": {
+        "items": [
+            "cardamom",
+            "cinnamon",
+            "cloves",
+            "cumin",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 112,
+        "support": 0.0028159098908834917,
+        "support_percentage": "0.28%"
+    },
+    "coriander + cumin + garlic + salt + water + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "water",
+            "welsh onion"
+        ],
+        "count": 147,
+        "support": 0.003695881731784583,
+        "support_percentage": "0.37%"
+    },
+    "coriander + cumin + garlic + salt + turmeric + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "salt",
+            "turmeric",
+            "welsh onion"
+        ],
+        "count": 134,
+        "support": 0.0033690350480213203,
+        "support_percentage": "0.34%"
+    },
+    "butter + flour + milk substitute + pasta + salt + sugar": {
+        "items": [
+            "butter",
+            "flour",
+            "milk substitute",
+            "pasta",
+            "salt",
+            "sugar"
+        ],
+        "count": 167,
+        "support": 0.004198722783728064,
+        "support_percentage": "0.42%"
+    },
+    "cinnamon + cloves + coriander + cumin + ginger + welsh onion": {
+        "items": [
+            "cinnamon",
+            "cloves",
+            "coriander",
+            "cumin",
+            "ginger",
+            "welsh onion"
+        ],
+        "count": 104,
+        "support": 0.0026147734701060994,
+        "support_percentage": "0.26%"
+    },
+    "chicken + cumin + garlic + ginger + salt + welsh onion": {
+        "items": [
+            "chicken",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 100,
+        "support": 0.0025142052597174032,
+        "support_percentage": "0.25%"
+    },
+    "chicken + coriander + cumin + ginger + salt + welsh onion": {
+        "items": [
+            "chicken",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 111,
+        "support": 0.0027907678382863175,
+        "support_percentage": "0.28%"
+    },
+    "ginger + salt + sesame oil + soy sauce + sugar + welsh onion": {
+        "items": [
+            "ginger",
+            "salt",
+            "sesame oil",
+            "soy sauce",
+            "sugar",
+            "welsh onion"
+        ],
+        "count": 115,
+        "support": 0.0028913360486750137,
+        "support_percentage": "0.29%"
+    },
+    "cinnamon + cloves + coriander + cumin + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "cloves",
+            "coriander",
+            "cumin",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 132,
+        "support": 0.0033187509428269724,
+        "support_percentage": "0.33%"
+    },
+    "cloves + coriander + cumin + ginger + salt + welsh onion": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 182,
+        "support": 0.0045758535726856744,
+        "support_percentage": "0.46%"
+    },
+    "cloves + coriander + cumin + ginger + salt + water": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "water"
+        ],
+        "count": 103,
+        "support": 0.0025896314175089252,
+        "support_percentage": "0.26%"
+    },
+    "cinnamon + cloves + coriander + ginger + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "cloves",
+            "coriander",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 105,
+        "support": 0.0026399155227032735,
+        "support_percentage": "0.26%"
+    },
+    "cinnamon + cloves + cumin + ginger + salt + welsh onion": {
+        "items": [
+            "cinnamon",
+            "cloves",
+            "cumin",
+            "ginger",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 125,
+        "support": 0.0031427565746467542,
+        "support_percentage": "0.31%"
+    },
+    "cooking oil + coriander + cumin + green bell pepper + salt + welsh onion": {
+        "items": [
+            "cooking oil",
+            "coriander",
+            "cumin",
+            "green bell pepper",
+            "salt",
+            "welsh onion"
+        ],
+        "count": 107,
+        "support": 0.0026901996278976214,
+        "support_percentage": "0.27%"
+    },
+    "garlic + salt + sesame oil + soy sauce + sugar + welsh onion": {
+        "items": [
+            "garlic",
+            "salt",
+            "sesame oil",
+            "soy sauce",
+            "sugar",
+            "welsh onion"
+        ],
+        "count": 108,
+        "support": 0.0027153416804947955,
+        "support_percentage": "0.27%"
+    },
+    "cloves + coriander + cumin + ginger + salt + turmeric": {
+        "items": [
+            "cloves",
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "turmeric"
+        ],
+        "count": 103,
+        "support": 0.0025896314175089252,
+        "support_percentage": "0.26%"
+    },
+    "chicken + garlic + ginger + sesame oil + soy sauce + welsh onion": {
+        "items": [
+            "chicken",
+            "garlic",
+            "ginger",
+            "sesame oil",
+            "soy sauce",
+            "welsh onion"
+        ],
+        "count": 105,
+        "support": 0.0026399155227032735,
+        "support_percentage": "0.26%"
+    },
+    "coriander + cumin + ginger + salt + turmeric + welsh onion": {
+        "items": [
+            "coriander",
+            "cumin",
+            "ginger",
+            "salt",
+            "turmeric",
+            "welsh onion"
+        ],
+        "count": 120,
+        "support": 0.003017046311660884,
+        "support_percentage": "0.30%"
+    },
+    "coriander + cumin + garlic + ginger + salt + turmeric": {
+        "items": [
+            "coriander",
+            "cumin",
+            "garlic",
+            "ginger",
+            "salt",
+            "turmeric"
+        ],
+        "count": 106,
+        "support": 0.0026650575753004477,
+        "support_percentage": "0.27%"
+    }
+}

@@ -1,0 +1,2426 @@
+{
+    "savoy cabbage": {
+        "count": 257,
+        "support": 0.006461507517473726,
+        "support_percentage": "0.65%",
+        "items": [
+            "savoy cabbage"
+        ]
+    },
+    "silver linden": {
+        "count": 158,
+        "support": 0.0039724443103534976,
+        "support_percentage": "0.40%",
+        "items": [
+            "silver linden"
+        ]
+    },
+    "kiwi": {
+        "count": 1212,
+        "support": 0.030472167747774927,
+        "support_percentage": "3.05%",
+        "items": [
+            "kiwi"
+        ]
+    },
+    "garlic": {
+        "count": 9740,
+        "support": 0.24488359229647508,
+        "support_percentage": "24.49%",
+        "items": [
+            "garlic"
+        ]
+    },
+    "chives": {
+        "count": 912,
+        "support": 0.02292955196862272,
+        "support_percentage": "2.29%",
+        "items": [
+            "chives"
+        ]
+    },
+    "cashew nut": {
+        "count": 122,
+        "support": 0.0030673304168552322,
+        "support_percentage": "0.31%",
+        "items": [
+            "cashew nut"
+        ]
+    },
+    "pineapple": {
+        "count": 252,
+        "support": 0.006335797254487857,
+        "support_percentage": "0.63%",
+        "items": [
+            "pineapple"
+        ]
+    },
+    "dill": {
+        "count": 404,
+        "support": 0.01015738924925831,
+        "support_percentage": "1.02%",
+        "items": [
+            "dill"
+        ]
+    },
+    "wild celery": {
+        "count": 717,
+        "support": 0.018026851712173782,
+        "support_percentage": "1.80%",
+        "items": [
+            "wild celery"
+        ]
+    },
+    "peanut": {
+        "count": 163,
+        "support": 0.004098154573339368,
+        "support_percentage": "0.41%",
+        "items": [
+            "peanut"
+        ]
+    },
+    "burdock": {
+        "count": 154,
+        "support": 0.003871876099964801,
+        "support_percentage": "0.39%",
+        "items": [
+            "burdock"
+        ]
+    },
+    "horseradish": {
+        "count": 409,
+        "support": 0.01028309951224418,
+        "support_percentage": "1.03%",
+        "items": [
+            "horseradish"
+        ]
+    },
+    "tarragon": {
+        "count": 626,
+        "support": 0.015738924925830945,
+        "support_percentage": "1.57%",
+        "items": [
+            "tarragon"
+        ]
+    },
+    "asparagus": {
+        "count": 277,
+        "support": 0.006964348569417207,
+        "support_percentage": "0.70%",
+        "items": [
+            "asparagus"
+        ]
+    },
+    "oat": {
+        "count": 103,
+        "support": 0.0025896314175089252,
+        "support_percentage": "0.26%",
+        "items": [
+            "oat"
+        ]
+    },
+    "chinese mustard": {
+        "count": 911,
+        "support": 0.022904409916025544,
+        "support_percentage": "2.29%",
+        "items": [
+            "chinese mustard"
+        ]
+    },
+    "cauliflower": {
+        "count": 309,
+        "support": 0.0077688942525267765,
+        "support_percentage": "0.78%",
+        "items": [
+            "cauliflower"
+        ]
+    },
+    "kohlrabi": {
+        "count": 106,
+        "support": 0.0026650575753004477,
+        "support_percentage": "0.27%",
+        "items": [
+            "kohlrabi"
+        ]
+    },
+    "broccoli": {
+        "count": 278,
+        "support": 0.006989490622014381,
+        "support_percentage": "0.70%",
+        "items": [
+            "broccoli"
+        ]
+    },
+    "pigeon pea": {
+        "count": 332,
+        "support": 0.00834716146226178,
+        "support_percentage": "0.83%",
+        "items": [
+            "pigeon pea"
+        ]
+    },
+    "capers": {
+        "count": 551,
+        "support": 0.013853270981042892,
+        "support_percentage": "1.39%",
+        "items": [
+            "capers"
+        ]
+    },
+    "pepper": {
+        "count": 4873,
+        "support": 0.12251722230602906,
+        "support_percentage": "12.25%",
+        "items": [
+            "pepper"
+        ]
+    },
+    "pecan nut": {
+        "count": 167,
+        "support": 0.004198722783728064,
+        "support_percentage": "0.42%",
+        "items": [
+            "pecan nut"
+        ]
+    },
+    "chickpea": {
+        "count": 164,
+        "support": 0.004123296625936542,
+        "support_percentage": "0.41%",
+        "items": [
+            "chickpea"
+        ]
+    },
+    "endive": {
+        "count": 137,
+        "support": 0.0034444612058128427,
+        "support_percentage": "0.34%",
+        "items": [
+            "endive"
+        ]
+    },
+    "lime": {
+        "count": 2145,
+        "support": 0.0539297028209383,
+        "support_percentage": "5.39%",
+        "items": [
+            "lime"
+        ]
+    },
+    "lemon": {
+        "count": 1801,
+        "support": 0.04528083672751043,
+        "support_percentage": "4.53%",
+        "items": [
+            "lemon"
+        ]
+    },
+    "coffee": {
+        "count": 330,
+        "support": 0.00829687735706743,
+        "support_percentage": "0.83%",
+        "items": [
+            "coffee"
+        ]
+    },
+    "coriander": {
+        "count": 6619,
+        "support": 0.16641524614069492,
+        "support_percentage": "16.64%",
+        "items": [
+            "coriander"
+        ]
+    },
+    "saffron": {
+        "count": 497,
+        "support": 0.012495600140795494,
+        "support_percentage": "1.25%",
+        "items": [
+            "saffron"
+        ]
+    },
+    "cucumber": {
+        "count": 814,
+        "support": 0.020465630814099665,
+        "support_percentage": "2.05%",
+        "items": [
+            "cucumber"
+        ]
+    },
+    "cumin": {
+        "count": 5126,
+        "support": 0.1288781616131141,
+        "support_percentage": "12.89%",
+        "items": [
+            "cumin"
+        ]
+    },
+    "turmeric": {
+        "count": 965,
+        "support": 0.024262080756272942,
+        "support_percentage": "2.43%",
+        "items": [
+            "turmeric"
+        ]
+    },
+    "lemon grass": {
+        "count": 176,
+        "support": 0.00442500125710263,
+        "support_percentage": "0.44%",
+        "items": [
+            "lemon grass"
+        ]
+    },
+    "cardamom": {
+        "count": 713,
+        "support": 0.017926283501785087,
+        "support_percentage": "1.79%",
+        "items": [
+            "cardamom"
+        ]
+    },
+    "fig": {
+        "count": 111,
+        "support": 0.0027907678382863175,
+        "support_percentage": "0.28%",
+        "items": [
+            "fig"
+        ]
+    },
+    "fennel": {
+        "count": 415,
+        "support": 0.010433951827827224,
+        "support_percentage": "1.04%",
+        "items": [
+            "fennel"
+        ]
+    },
+    "soy bean": {
+        "count": 134,
+        "support": 0.0033690350480213203,
+        "support_percentage": "0.34%",
+        "items": [
+            "soy bean"
+        ]
+    },
+    "star anise": {
+        "count": 263,
+        "support": 0.006612359833056771,
+        "support_percentage": "0.66%",
+        "items": [
+            "star anise"
+        ]
+    },
+    "sweet potato": {
+        "count": 461,
+        "support": 0.01159048624729723,
+        "support_percentage": "1.16%",
+        "items": [
+            "sweet potato"
+        ]
+    },
+    "lettuce": {
+        "count": 738,
+        "support": 0.018554834816714435,
+        "support_percentage": "1.86%",
+        "items": [
+            "lettuce"
+        ]
+    },
+    "sweet bay": {
+        "count": 1275,
+        "support": 0.03205611706139689,
+        "support_percentage": "3.21%",
+        "items": [
+            "sweet bay"
+        ]
+    },
+    "lentils": {
+        "count": 273,
+        "support": 0.006863780359028511,
+        "support_percentage": "0.69%",
+        "items": [
+            "lentils"
+        ]
+    },
+    "lovage": {
+        "count": 1664,
+        "support": 0.04183637552169759,
+        "support_percentage": "4.18%",
+        "items": [
+            "lovage"
+        ]
+    },
+    "mexican oregano": {
+        "count": 175,
+        "support": 0.004399859204505456,
+        "support_percentage": "0.44%",
+        "items": [
+            "mexican oregano"
+        ]
+    },
+    "apple": {
+        "count": 366,
+        "support": 0.009201991250565696,
+        "support_percentage": "0.92%",
+        "items": [
+            "apple"
+        ]
+    },
+    "mango": {
+        "count": 375,
+        "support": 0.009428269723940263,
+        "support_percentage": "0.94%",
+        "items": [
+            "mango"
+        ]
+    },
+    "orange mint": {
+        "count": 1324,
+        "support": 0.03328807763865842,
+        "support_percentage": "3.33%",
+        "items": [
+            "orange mint"
+        ]
+    },
+    "cornmint": {
+        "count": 1243,
+        "support": 0.031251571378287324,
+        "support_percentage": "3.13%",
+        "items": [
+            "cornmint"
+        ]
+    },
+    "nutmeg": {
+        "count": 1091,
+        "support": 0.02742997938351687,
+        "support_percentage": "2.74%",
+        "items": [
+            "nutmeg"
+        ]
+    },
+    "sweet basil": {
+        "count": 1249,
+        "support": 0.03140242369387037,
+        "support_percentage": "3.14%",
+        "items": [
+            "sweet basil"
+        ]
+    },
+    "olive": {
+        "count": 3856,
+        "support": 0.09694775481470307,
+        "support_percentage": "9.69%",
+        "items": [
+            "olive"
+        ]
+    },
+    "rice": {
+        "count": 2831,
+        "support": 0.07117715090259968,
+        "support_percentage": "7.12%",
+        "items": [
+            "rice"
+        ]
+    },
+    "avocado": {
+        "count": 1312,
+        "support": 0.03298637300749233,
+        "support_percentage": "3.30%",
+        "items": [
+            "avocado"
+        ]
+    },
+    "parsley": {
+        "count": 3843,
+        "support": 0.0966209081309398,
+        "support_percentage": "9.66%",
+        "items": [
+            "parsley"
+        ]
+    },
+    "date": {
+        "count": 174,
+        "support": 0.004374717151908282,
+        "support_percentage": "0.44%",
+        "items": [
+            "date"
+        ]
+    },
+    "black chokeberry": {
+        "count": 1064,
+        "support": 0.026751143963393172,
+        "support_percentage": "2.68%",
+        "items": [
+            "black chokeberry"
+        ]
+    },
+    "pepper (spice)": {
+        "count": 1644,
+        "support": 0.04133353446975411,
+        "support_percentage": "4.13%",
+        "items": [
+            "pepper (spice)"
+        ]
+    },
+    "pistachio": {
+        "count": 120,
+        "support": 0.003017046311660884,
+        "support_percentage": "0.30%",
+        "items": [
+            "pistachio"
+        ]
+    },
+    "common pea": {
+        "count": 470,
+        "support": 0.011816764720671795,
+        "support_percentage": "1.18%",
+        "items": [
+            "common pea"
+        ]
+    },
+    "apricot": {
+        "count": 232,
+        "support": 0.005832956202544376,
+        "support_percentage": "0.58%",
+        "items": [
+            "apricot"
+        ]
+    },
+    "sour cherry": {
+        "count": 155,
+        "support": 0.003897018152561975,
+        "support_percentage": "0.39%",
+        "items": [
+            "sour cherry"
+        ]
+    },
+    "almond": {
+        "count": 488,
+        "support": 0.012269321667420929,
+        "support_percentage": "1.23%",
+        "items": [
+            "almond"
+        ]
+    },
+    "guava": {
+        "count": 504,
+        "support": 0.012671594508975714,
+        "support_percentage": "1.27%",
+        "items": [
+            "guava"
+        ]
+    },
+    "radish": {
+        "count": 311,
+        "support": 0.007819178357721125,
+        "support_percentage": "0.78%",
+        "items": [
+            "radish"
+        ]
+    },
+    "watercress": {
+        "count": 112,
+        "support": 0.0028159098908834917,
+        "support_percentage": "0.28%",
+        "items": [
+            "watercress"
+        ]
+    },
+    "rosemary": {
+        "count": 818,
+        "support": 0.02056619902448836,
+        "support_percentage": "2.06%",
+        "items": [
+            "rosemary"
+        ]
+    },
+    "summer savory": {
+        "count": 131,
+        "support": 0.0032936088902297983,
+        "support_percentage": "0.33%",
+        "items": [
+            "summer savory"
+        ]
+    },
+    "rye": {
+        "count": 215,
+        "support": 0.005405541308392417,
+        "support_percentage": "0.54%",
+        "items": [
+            "rye"
+        ]
+    },
+    "sesame": {
+        "count": 453,
+        "support": 0.011389349826519837,
+        "support_percentage": "1.14%",
+        "items": [
+            "sesame"
+        ]
+    },
+    "cherry tomato": {
+        "count": 4013,
+        "support": 0.1008950570724594,
+        "support_percentage": "10.09%",
+        "items": [
+            "cherry tomato"
+        ]
+    },
+    "eggplant": {
+        "count": 605,
+        "support": 0.01521094182129029,
+        "support_percentage": "1.52%",
+        "items": [
+            "eggplant"
+        ]
+    },
+    "potato": {
+        "count": 2362,
+        "support": 0.059385528234525066,
+        "support_percentage": "5.94%",
+        "items": [
+            "potato"
+        ]
+    },
+    "spinach": {
+        "count": 1004,
+        "support": 0.02524262080756273,
+        "support_percentage": "2.52%",
+        "items": [
+            "spinach"
+        ]
+    },
+    "cloves": {
+        "count": 7935,
+        "support": 0.19950218735857594,
+        "support_percentage": "19.95%",
+        "items": [
+            "cloves"
+        ]
+    },
+    "tamarind": {
+        "count": 203,
+        "support": 0.0051038366772263285,
+        "support_percentage": "0.51%",
+        "items": [
+            "tamarind"
+        ]
+    },
+    "linden": {
+        "count": 251,
+        "support": 0.006310655201890682,
+        "support_percentage": "0.63%",
+        "items": [
+            "linden"
+        ]
+    },
+    "fenugreek": {
+        "count": 119,
+        "support": 0.00299190425906371,
+        "support_percentage": "0.30%",
+        "items": [
+            "fenugreek"
+        ]
+    },
+    "vanilla": {
+        "count": 554,
+        "support": 0.013928697138834415,
+        "support_percentage": "1.39%",
+        "items": [
+            "vanilla"
+        ]
+    },
+    "gram bean": {
+        "count": 271,
+        "support": 0.006813496253834163,
+        "support_percentage": "0.68%",
+        "items": [
+            "gram bean"
+        ]
+    },
+    "climbing bean": {
+        "count": 842,
+        "support": 0.021169608286820536,
+        "support_percentage": "2.12%",
+        "items": [
+            "climbing bean"
+        ]
+    },
+    "corn": {
+        "count": 2309,
+        "support": 0.058052999446874844,
+        "support_percentage": "5.81%",
+        "items": [
+            "corn"
+        ]
+    },
+    "ginger": {
+        "count": 4927,
+        "support": 0.12387489314627646,
+        "support_percentage": "12.39%",
+        "items": [
+            "ginger"
+        ]
+    },
+    "banana": {
+        "count": 299,
+        "support": 0.007517473726555036,
+        "support_percentage": "0.75%",
+        "items": [
+            "banana"
+        ]
+    },
+    "buffalo currant": {
+        "count": 154,
+        "support": 0.003871876099964801,
+        "support_percentage": "0.39%",
+        "items": [
+            "buffalo currant"
+        ]
+    },
+    "nectarine": {
+        "count": 359,
+        "support": 0.009025996882385479,
+        "support_percentage": "0.90%",
+        "items": [
+            "nectarine"
+        ]
+    },
+    "pepper (c. chinense)": {
+        "count": 245,
+        "support": 0.006159802886307638,
+        "support_percentage": "0.62%",
+        "items": [
+            "pepper (c. chinense)"
+        ]
+    },
+    "pepper (capsicum)": {
+        "count": 273,
+        "support": 0.006863780359028511,
+        "support_percentage": "0.69%",
+        "items": [
+            "pepper (capsicum)"
+        ]
+    },
+    "swiss chard": {
+        "count": 146,
+        "support": 0.0036707396791874087,
+        "support_percentage": "0.37%",
+        "items": [
+            "swiss chard"
+        ]
+    },
+    "lemon thyme": {
+        "count": 469,
+        "support": 0.011791622668074622,
+        "support_percentage": "1.18%",
+        "items": [
+            "lemon thyme"
+        ]
+    },
+    "welsh onion": {
+        "count": 13638,
+        "support": 0.34288731332025946,
+        "support_percentage": "34.29%",
+        "items": [
+            "welsh onion"
+        ]
+    },
+    "hard wheat": {
+        "count": 875,
+        "support": 0.02199929602252728,
+        "support_percentage": "2.20%",
+        "items": [
+            "hard wheat"
+        ]
+    },
+    "carrot": {
+        "count": 239,
+        "support": 0.006008950570724594,
+        "support_percentage": "0.60%",
+        "items": [
+            "carrot"
+        ]
+    },
+    "half-highbush blueberry": {
+        "count": 402,
+        "support": 0.010107105144063962,
+        "support_percentage": "1.01%",
+        "items": [
+            "half-highbush blueberry"
+        ]
+    },
+    "napa cabbage": {
+        "count": 662,
+        "support": 0.01664403881932921,
+        "support_percentage": "1.66%",
+        "items": [
+            "napa cabbage"
+        ]
+    },
+    "kai-lan": {
+        "count": 212,
+        "support": 0.005330115150600895,
+        "support_percentage": "0.53%",
+        "items": [
+            "kai-lan"
+        ]
+    },
+    "daikon radish": {
+        "count": 157,
+        "support": 0.003947302257756323,
+        "support_percentage": "0.39%",
+        "items": [
+            "daikon radish"
+        ]
+    },
+    "pineappple sage": {
+        "count": 114,
+        "support": 0.00286619399607784,
+        "support_percentage": "0.29%",
+        "items": [
+            "pineappple sage"
+        ]
+    },
+    "beer": {
+        "count": 369,
+        "support": 0.009277417408357217,
+        "support_percentage": "0.93%",
+        "items": [
+            "beer"
+        ]
+    },
+    "other bread": {
+        "count": 134,
+        "support": 0.0033690350480213203,
+        "support_percentage": "0.34%",
+        "items": [
+            "other bread"
+        ]
+    },
+    "pasta": {
+        "count": 5505,
+        "support": 0.13840699954744307,
+        "support_percentage": "13.84%",
+        "items": [
+            "pasta"
+        ]
+    },
+    "sourdough": {
+        "count": 819,
+        "support": 0.020591341077085535,
+        "support_percentage": "2.06%",
+        "items": [
+            "sourdough"
+        ]
+    },
+    "fortified wine": {
+        "count": 121,
+        "support": 0.003042188364258058,
+        "support_percentage": "0.30%",
+        "items": [
+            "fortified wine"
+        ]
+    },
+    "allspice": {
+        "count": 697,
+        "support": 0.0175240106602303,
+        "support_percentage": "1.75%",
+        "items": [
+            "allspice"
+        ]
+    },
+    "asian pear": {
+        "count": 203,
+        "support": 0.0051038366772263285,
+        "support_percentage": "0.51%",
+        "items": [
+            "asian pear"
+        ]
+    },
+    "bamboo shoots": {
+        "count": 283,
+        "support": 0.007115200885000251,
+        "support_percentage": "0.71%",
+        "items": [
+            "bamboo shoots"
+        ]
+    },
+    "blue mussel": {
+        "count": 181,
+        "support": 0.0045507115200885,
+        "support_percentage": "0.46%",
+        "items": [
+            "blue mussel"
+        ]
+    },
+    "northern bluefin tuna": {
+        "count": 111,
+        "support": 0.0027907678382863175,
+        "support_percentage": "0.28%",
+        "items": [
+            "northern bluefin tuna"
+        ]
+    },
+    "rapini": {
+        "count": 187,
+        "support": 0.004701563835671544,
+        "support_percentage": "0.47%",
+        "items": [
+            "rapini"
+        ]
+    },
+    "butternut squash": {
+        "count": 175,
+        "support": 0.004399859204505456,
+        "support_percentage": "0.44%",
+        "items": [
+            "butternut squash"
+        ]
+    },
+    "chervil": {
+        "count": 118,
+        "support": 0.002966762206466536,
+        "support_percentage": "0.30%",
+        "items": [
+            "chervil"
+        ]
+    },
+    "chicken": {
+        "count": 5174,
+        "support": 0.13008498013777844,
+        "support_percentage": "13.01%",
+        "items": [
+            "chicken"
+        ]
+    },
+    "chinese broccoli": {
+        "count": 214,
+        "support": 0.005380399255795243,
+        "support_percentage": "0.54%",
+        "items": [
+            "chinese broccoli"
+        ]
+    },
+    "chinese water chestnut": {
+        "count": 211,
+        "support": 0.005304973098003721,
+        "support_percentage": "0.53%",
+        "items": [
+            "chinese water chestnut"
+        ]
+    },
+    "coconut": {
+        "count": 949,
+        "support": 0.02385980791471816,
+        "support_percentage": "2.39%",
+        "items": [
+            "coconut"
+        ]
+    },
+    "pacific cod": {
+        "count": 149,
+        "support": 0.003746165836978931,
+        "support_percentage": "0.37%",
+        "items": [
+            "pacific cod"
+        ]
+    },
+    "mallard duck": {
+        "count": 109,
+        "support": 0.0027404837330919697,
+        "support_percentage": "0.27%",
+        "items": [
+            "mallard duck"
+        ]
+    },
+    "emu": {
+        "count": 695,
+        "support": 0.017473726555035953,
+        "support_percentage": "1.75%",
+        "items": [
+            "emu"
+        ]
+    },
+    "european anchovy": {
+        "count": 134,
+        "support": 0.0033690350480213203,
+        "support_percentage": "0.34%",
+        "items": [
+            "european anchovy"
+        ]
+    },
+    "groundcherry": {
+        "count": 216,
+        "support": 0.005430683360989591,
+        "support_percentage": "0.54%",
+        "items": [
+            "groundcherry"
+        ]
+    },
+    "pacific jack mackerel": {
+        "count": 114,
+        "support": 0.00286619399607784,
+        "support_percentage": "0.29%",
+        "items": [
+            "pacific jack mackerel"
+        ]
+    },
+    "kale": {
+        "count": 387,
+        "support": 0.009729974355106351,
+        "support_percentage": "0.97%",
+        "items": [
+            "kale"
+        ]
+    },
+    "king mackerel": {
+        "count": 144,
+        "support": 0.003620455573993061,
+        "support_percentage": "0.36%",
+        "items": [
+            "king mackerel"
+        ]
+    },
+    "wild leek": {
+        "count": 1897,
+        "support": 0.04769447377683914,
+        "support_percentage": "4.77%",
+        "items": [
+            "wild leek"
+        ]
+    },
+    "new zealand spinach": {
+        "count": 321,
+        "support": 0.008070598883692865,
+        "support_percentage": "0.81%",
+        "items": [
+            "new zealand spinach"
+        ]
+    },
+    "nopal": {
+        "count": 250,
+        "support": 0.0062855131492935085,
+        "support_percentage": "0.63%",
+        "items": [
+            "nopal"
+        ]
+    },
+    "okra": {
+        "count": 344,
+        "support": 0.008648866093427868,
+        "support_percentage": "0.86%",
+        "items": [
+            "okra"
+        ]
+    },
+    "ostrich": {
+        "count": 358,
+        "support": 0.009000854829788303,
+        "support_percentage": "0.90%",
+        "items": [
+            "ostrich"
+        ]
+    },
+    "velvet duck": {
+        "count": 578,
+        "support": 0.01453210640116659,
+        "support_percentage": "1.45%",
+        "items": [
+            "velvet duck"
+        ]
+    },
+    "quinoa": {
+        "count": 154,
+        "support": 0.003871876099964801,
+        "support_percentage": "0.39%",
+        "items": [
+            "quinoa"
+        ]
+    },
+    "orange roughy": {
+        "count": 621,
+        "support": 0.015613214662845074,
+        "support_percentage": "1.56%",
+        "items": [
+            "orange roughy"
+        ]
+    },
+    "sablefish": {
+        "count": 127,
+        "support": 0.003193040679841102,
+        "support_percentage": "0.32%",
+        "items": [
+            "sablefish"
+        ]
+    },
+    "sockeye salmon": {
+        "count": 189,
+        "support": 0.004751847940865892,
+        "support_percentage": "0.48%",
+        "items": [
+            "sockeye salmon"
+        ]
+    },
+    "scallop": {
+        "count": 152,
+        "support": 0.003821591994770453,
+        "support_percentage": "0.38%",
+        "items": [
+            "scallop"
+        ]
+    },
+    "sea cucumber": {
+        "count": 134,
+        "support": 0.0033690350480213203,
+        "support_percentage": "0.34%",
+        "items": [
+            "sea cucumber"
+        ]
+    },
+    "sheep (mutton, lamb)": {
+        "count": 250,
+        "support": 0.0062855131492935085,
+        "support_percentage": "0.63%",
+        "items": [
+            "sheep (mutton, lamb)"
+        ]
+    },
+    "sugar apple": {
+        "count": 481,
+        "support": 0.01209332729924071,
+        "support_percentage": "1.21%",
+        "items": [
+            "sugar apple"
+        ]
+    },
+    "mexican groundcherry": {
+        "count": 203,
+        "support": 0.0051038366772263285,
+        "support_percentage": "0.51%",
+        "items": [
+            "mexican groundcherry"
+        ]
+    },
+    "turkey": {
+        "count": 403,
+        "support": 0.010132247196661136,
+        "support_percentage": "1.01%",
+        "items": [
+            "turkey"
+        ]
+    },
+    "cattle (beef, veal)": {
+        "count": 410,
+        "support": 0.010308241564841353,
+        "support_percentage": "1.03%",
+        "items": [
+            "cattle (beef, veal)"
+        ]
+    },
+    "wasabi": {
+        "count": 165,
+        "support": 0.004148438678533715,
+        "support_percentage": "0.41%",
+        "items": [
+            "wasabi"
+        ]
+    },
+    "yam": {
+        "count": 122,
+        "support": 0.0030673304168552322,
+        "support_percentage": "0.31%",
+        "items": [
+            "yam"
+        ]
+    },
+    "spiny lobster": {
+        "count": 119,
+        "support": 0.00299190425906371,
+        "support_percentage": "0.30%",
+        "items": [
+            "spiny lobster"
+        ]
+    },
+    "snow crab": {
+        "count": 193,
+        "support": 0.004852416151254589,
+        "support_percentage": "0.49%",
+        "items": [
+            "snow crab"
+        ]
+    },
+    "shrimp": {
+        "count": 2434,
+        "support": 0.061195756021521594,
+        "support_percentage": "6.12%",
+        "items": [
+            "shrimp"
+        ]
+    },
+    "domestic pig": {
+        "count": 149,
+        "support": 0.003746165836978931,
+        "support_percentage": "0.37%",
+        "items": [
+            "domestic pig"
+        ]
+    },
+    "jew's ear": {
+        "count": 100,
+        "support": 0.0025142052597174032,
+        "support_percentage": "0.25%",
+        "items": [
+            "jew's ear"
+        ]
+    },
+    "common mushroom": {
+        "count": 607,
+        "support": 0.015261225926484639,
+        "support_percentage": "1.53%",
+        "items": [
+            "common mushroom"
+        ]
+    },
+    "shiitake": {
+        "count": 331,
+        "support": 0.008322019409664604,
+        "support_percentage": "0.83%",
+        "items": [
+            "shiitake"
+        ]
+    },
+    "purple laver": {
+        "count": 111,
+        "support": 0.0027907678382863175,
+        "support_percentage": "0.28%",
+        "items": [
+            "purple laver"
+        ]
+    },
+    "enokitake": {
+        "count": 164,
+        "support": 0.004123296625936542,
+        "support_percentage": "0.41%",
+        "items": [
+            "enokitake"
+        ]
+    },
+    "cloud ear fungus": {
+        "count": 359,
+        "support": 0.009025996882385479,
+        "support_percentage": "0.90%",
+        "items": [
+            "cloud ear fungus"
+        ]
+    },
+    "maitake": {
+        "count": 105,
+        "support": 0.0026399155227032735,
+        "support_percentage": "0.26%",
+        "items": [
+            "maitake"
+        ]
+    },
+    "tinda": {
+        "count": 237,
+        "support": 0.005958666465530246,
+        "support_percentage": "0.60%",
+        "items": [
+            "tinda"
+        ]
+    },
+    "wheat": {
+        "count": 452,
+        "support": 0.011364207773922663,
+        "support_percentage": "1.14%",
+        "items": [
+            "wheat"
+        ]
+    },
+    "cinnamon": {
+        "count": 2528,
+        "support": 0.06355910896565596,
+        "support_percentage": "6.36%",
+        "items": [
+            "cinnamon"
+        ]
+    },
+    "rock ptarmigan": {
+        "count": 176,
+        "support": 0.00442500125710263,
+        "support_percentage": "0.44%",
+        "items": [
+            "rock ptarmigan"
+        ]
+    },
+    "catfish": {
+        "count": 137,
+        "support": 0.0034444612058128427,
+        "support_percentage": "0.34%",
+        "items": [
+            "catfish"
+        ]
+    },
+    "walnut": {
+        "count": 1507,
+        "support": 0.03788907326394127,
+        "support_percentage": "3.79%",
+        "items": [
+            "walnut"
+        ]
+    },
+    "apple cider": {
+        "count": 321,
+        "support": 0.008070598883692865,
+        "support_percentage": "0.81%",
+        "items": [
+            "apple cider"
+        ]
+    },
+    "liquor": {
+        "count": 344,
+        "support": 0.008648866093427868,
+        "support_percentage": "0.86%",
+        "items": [
+            "liquor"
+        ]
+    },
+    "cheese": {
+        "count": 572,
+        "support": 0.014381254085583547,
+        "support_percentage": "1.44%",
+        "items": [
+            "cheese"
+        ]
+    },
+    "eggs": {
+        "count": 3601,
+        "support": 0.0905365314024237,
+        "support_percentage": "9.05%",
+        "items": [
+            "eggs"
+        ]
+    },
+    "yogurt": {
+        "count": 973,
+        "support": 0.024463217177050335,
+        "support_percentage": "2.45%",
+        "items": [
+            "yogurt"
+        ]
+    },
+    "ice cream": {
+        "count": 1397,
+        "support": 0.03512344747825213,
+        "support_percentage": "3.51%",
+        "items": [
+            "ice cream"
+        ]
+    },
+    "honey": {
+        "count": 1403,
+        "support": 0.035274299793835166,
+        "support_percentage": "3.53%",
+        "items": [
+            "honey"
+        ]
+    },
+    "vinegar": {
+        "count": 2228,
+        "support": 0.056016493186503744,
+        "support_percentage": "5.60%",
+        "items": [
+            "vinegar"
+        ]
+    },
+    "rum": {
+        "count": 238,
+        "support": 0.00598380851812742,
+        "support_percentage": "0.60%",
+        "items": [
+            "rum"
+        ]
+    },
+    "port wine": {
+        "count": 2254,
+        "support": 0.05667018655403027,
+        "support_percentage": "5.67%",
+        "items": [
+            "port wine"
+        ]
+    },
+    "sherry": {
+        "count": 627,
+        "support": 0.01576406697842812,
+        "support_percentage": "1.58%",
+        "items": [
+            "sherry"
+        ]
+    },
+    "toffee": {
+        "count": 245,
+        "support": 0.006159802886307638,
+        "support_percentage": "0.62%",
+        "items": [
+            "toffee"
+        ]
+    },
+    "cake": {
+        "count": 286,
+        "support": 0.007190627042791773,
+        "support_percentage": "0.72%",
+        "items": [
+            "cake"
+        ]
+    },
+    "pizza": {
+        "count": 264,
+        "support": 0.006637501885653945,
+        "support_percentage": "0.66%",
+        "items": [
+            "pizza"
+        ]
+    },
+    "ymer": {
+        "count": 168,
+        "support": 0.004223864836325237,
+        "support_percentage": "0.42%",
+        "items": [
+            "ymer"
+        ]
+    },
+    "pastry": {
+        "count": 179,
+        "support": 0.004500427414894152,
+        "support_percentage": "0.45%",
+        "items": [
+            "pastry"
+        ]
+    },
+    "marzipan": {
+        "count": 219,
+        "support": 0.005506109518781113,
+        "support_percentage": "0.55%",
+        "items": [
+            "marzipan"
+        ]
+    },
+    "salad dressing": {
+        "count": 1539,
+        "support": 0.03869361894705084,
+        "support_percentage": "3.87%",
+        "items": [
+            "salad dressing"
+        ]
+    },
+    "sauce": {
+        "count": 1178,
+        "support": 0.02961733795947101,
+        "support_percentage": "2.96%",
+        "items": [
+            "sauce"
+        ]
+    },
+    "salt": {
+        "count": 23033,
+        "support": 0.5790968974707095,
+        "support_percentage": "57.91%",
+        "items": [
+            "salt"
+        ]
+    },
+    "butter": {
+        "count": 7980,
+        "support": 0.2006335797254488,
+        "support_percentage": "20.06%",
+        "items": [
+            "butter"
+        ]
+    },
+    "cream": {
+        "count": 1292,
+        "support": 0.03248353195554885,
+        "support_percentage": "3.25%",
+        "items": [
+            "cream"
+        ]
+    },
+    "sugar": {
+        "count": 7299,
+        "support": 0.18351184190677328,
+        "support_percentage": "18.35%",
+        "items": [
+            "sugar"
+        ]
+    },
+    "sausage": {
+        "count": 1501,
+        "support": 0.03773822094835822,
+        "support_percentage": "3.77%",
+        "items": [
+            "sausage"
+        ]
+    },
+    "meatball": {
+        "count": 339,
+        "support": 0.008523155830441997,
+        "support_percentage": "0.85%",
+        "items": [
+            "meatball"
+        ]
+    },
+    "mustard": {
+        "count": 448,
+        "support": 0.011263639563533967,
+        "support_percentage": "1.13%",
+        "items": [
+            "mustard"
+        ]
+    },
+    "pate": {
+        "count": 121,
+        "support": 0.003042188364258058,
+        "support_percentage": "0.30%",
+        "items": [
+            "pate"
+        ]
+    },
+    "gelatin": {
+        "count": 107,
+        "support": 0.0026901996278976214,
+        "support_percentage": "0.27%",
+        "items": [
+            "gelatin"
+        ]
+    },
+    "water": {
+        "count": 8036,
+        "support": 0.20204153467089053,
+        "support_percentage": "20.20%",
+        "items": [
+            "water"
+        ]
+    },
+    "syrup": {
+        "count": 450,
+        "support": 0.011313923668728316,
+        "support_percentage": "1.13%",
+        "items": [
+            "syrup"
+        ]
+    },
+    "remoulade": {
+        "count": 731,
+        "support": 0.018378840448534217,
+        "support_percentage": "1.84%",
+        "items": [
+            "remoulade"
+        ]
+    },
+    "curry powder": {
+        "count": 2206,
+        "support": 0.05546336802936592,
+        "support_percentage": "5.55%",
+        "items": [
+            "curry powder"
+        ]
+    },
+    "meringue": {
+        "count": 187,
+        "support": 0.004701563835671544,
+        "support_percentage": "0.47%",
+        "items": [
+            "meringue"
+        ]
+    },
+    "lard": {
+        "count": 171,
+        "support": 0.004299290994116759,
+        "support_percentage": "0.43%",
+        "items": [
+            "lard"
+        ]
+    },
+    "other animal fat": {
+        "count": 600,
+        "support": 0.01508523155830442,
+        "support_percentage": "1.51%",
+        "items": [
+            "other animal fat"
+        ]
+    },
+    "cocoa powder": {
+        "count": 682,
+        "support": 0.01714687987127269,
+        "support_percentage": "1.71%",
+        "items": [
+            "cocoa powder"
+        ]
+    },
+    "hot chocolate": {
+        "count": 830,
+        "support": 0.020867903655654448,
+        "support_percentage": "2.09%",
+        "items": [
+            "hot chocolate"
+        ]
+    },
+    "buttermilk": {
+        "count": 1008,
+        "support": 0.025343189017951427,
+        "support_percentage": "2.53%",
+        "items": [
+            "buttermilk"
+        ]
+    },
+    "soy sauce": {
+        "count": 4714,
+        "support": 0.11851963594307839,
+        "support_percentage": "11.85%",
+        "items": [
+            "soy sauce"
+        ]
+    },
+    "miso": {
+        "count": 387,
+        "support": 0.009729974355106351,
+        "support_percentage": "0.97%",
+        "items": [
+            "miso"
+        ]
+    },
+    "tofu": {
+        "count": 608,
+        "support": 0.015286367979081813,
+        "support_percentage": "1.53%",
+        "items": [
+            "tofu"
+        ]
+    },
+    "roe": {
+        "count": 102,
+        "support": 0.0025644893649117515,
+        "support_percentage": "0.26%",
+        "items": [
+            "roe"
+        ]
+    },
+    "burrito": {
+        "count": 1168,
+        "support": 0.02936591743349927,
+        "support_percentage": "2.94%",
+        "items": [
+            "burrito"
+        ]
+    },
+    "hamburger": {
+        "count": 409,
+        "support": 0.01028309951224418,
+        "support_percentage": "1.03%",
+        "items": [
+            "hamburger"
+        ]
+    },
+    "baked beans": {
+        "count": 340,
+        "support": 0.008548297883039171,
+        "support_percentage": "0.85%",
+        "items": [
+            "baked beans"
+        ]
+    },
+    "chili": {
+        "count": 1305,
+        "support": 0.03281037863931211,
+        "support_percentage": "3.28%",
+        "items": [
+            "chili"
+        ]
+    },
+    "taco": {
+        "count": 583,
+        "support": 0.014657816664152461,
+        "support_percentage": "1.47%",
+        "items": [
+            "taco"
+        ]
+    },
+    "processed cheese": {
+        "count": 451,
+        "support": 0.01133906572132549,
+        "support_percentage": "1.13%",
+        "items": [
+            "processed cheese"
+        ]
+    },
+    "egg roll": {
+        "count": 413,
+        "support": 0.010383667722632876,
+        "support_percentage": "1.04%",
+        "items": [
+            "egg roll"
+        ]
+    },
+    "heart of palm": {
+        "count": 332,
+        "support": 0.00834716146226178,
+        "support_percentage": "0.83%",
+        "items": [
+            "heart of palm"
+        ]
+    },
+    "popcorn": {
+        "count": 655,
+        "support": 0.01646804445114899,
+        "support_percentage": "1.65%",
+        "items": [
+            "popcorn"
+        ]
+    },
+    "tortilla chip": {
+        "count": 1396,
+        "support": 0.03509830542565495,
+        "support_percentage": "3.51%",
+        "items": [
+            "tortilla chip"
+        ]
+    },
+    "corn chip": {
+        "count": 289,
+        "support": 0.007266053200583295,
+        "support_percentage": "0.73%",
+        "items": [
+            "corn chip"
+        ]
+    },
+    "stew": {
+        "count": 426,
+        "support": 0.010710514406396138,
+        "support_percentage": "1.07%",
+        "items": [
+            "stew"
+        ]
+    },
+    "gelatin dessert": {
+        "count": 124,
+        "support": 0.00311761452204958,
+        "support_percentage": "0.31%",
+        "items": [
+            "gelatin dessert"
+        ]
+    },
+    "lasagna": {
+        "count": 1012,
+        "support": 0.025443757228340122,
+        "support_percentage": "2.54%",
+        "items": [
+            "lasagna"
+        ]
+    },
+    "pudding": {
+        "count": 671,
+        "support": 0.016870317292703777,
+        "support_percentage": "1.69%",
+        "items": [
+            "pudding"
+        ]
+    },
+    "sake": {
+        "count": 768,
+        "support": 0.019309096394629657,
+        "support_percentage": "1.93%",
+        "items": [
+            "sake"
+        ]
+    },
+    "couscous": {
+        "count": 200,
+        "support": 0.0050284105194348064,
+        "support_percentage": "0.50%",
+        "items": [
+            "couscous"
+        ]
+    },
+    "coffee substitute": {
+        "count": 131,
+        "support": 0.0032936088902297983,
+        "support_percentage": "0.33%",
+        "items": [
+            "coffee substitute"
+        ]
+    },
+    "chimichanga": {
+        "count": 357,
+        "support": 0.00897571277719113,
+        "support_percentage": "0.90%",
+        "items": [
+            "chimichanga"
+        ]
+    },
+    "semolina": {
+        "count": 137,
+        "support": 0.0034444612058128427,
+        "support_percentage": "0.34%",
+        "items": [
+            "semolina"
+        ]
+    },
+    "tapioca pearl": {
+        "count": 108,
+        "support": 0.0027153416804947955,
+        "support_percentage": "0.27%",
+        "items": [
+            "tapioca pearl"
+        ]
+    },
+    "baked potato": {
+        "count": 385,
+        "support": 0.009679690249912002,
+        "support_percentage": "0.97%",
+        "items": [
+            "baked potato"
+        ]
+    },
+    "hot dog": {
+        "count": 104,
+        "support": 0.0026147734701060994,
+        "support_percentage": "0.26%",
+        "items": [
+            "hot dog"
+        ]
+    },
+    "enchilada": {
+        "count": 396,
+        "support": 0.009956252828480916,
+        "support_percentage": "1.00%",
+        "items": [
+            "enchilada"
+        ]
+    },
+    "egg substitute": {
+        "count": 228,
+        "support": 0.00573238799215568,
+        "support_percentage": "0.57%",
+        "items": [
+            "egg substitute"
+        ]
+    },
+    "other sandwich": {
+        "count": 101,
+        "support": 0.0025393473123145774,
+        "support_percentage": "0.25%",
+        "items": [
+            "other sandwich"
+        ]
+    },
+    "ketchup": {
+        "count": 528,
+        "support": 0.01327500377130789,
+        "support_percentage": "1.33%",
+        "items": [
+            "ketchup"
+        ]
+    },
+    "breakfast sandwich": {
+        "count": 263,
+        "support": 0.006612359833056771,
+        "support_percentage": "0.66%",
+        "items": [
+            "breakfast sandwich"
+        ]
+    },
+    "adobo": {
+        "count": 580,
+        "support": 0.01458239050636094,
+        "support_percentage": "1.46%",
+        "items": [
+            "adobo"
+        ]
+    },
+    "horned melon": {
+        "count": 203,
+        "support": 0.0051038366772263285,
+        "support_percentage": "0.51%",
+        "items": [
+            "horned melon"
+        ]
+    },
+    "hushpuppy": {
+        "count": 526,
+        "support": 0.013224719666113542,
+        "support_percentage": "1.32%",
+        "items": [
+            "hushpuppy"
+        ]
+    },
+    "fruit juice": {
+        "count": 1900,
+        "support": 0.04776989993463066,
+        "support_percentage": "4.78%",
+        "items": [
+            "fruit juice"
+        ]
+    },
+    "cold cut": {
+        "count": 560,
+        "support": 0.014079549454417459,
+        "support_percentage": "1.41%",
+        "items": [
+            "cold cut"
+        ]
+    },
+    "phyllo dough": {
+        "count": 247,
+        "support": 0.0062100869915019865,
+        "support_percentage": "0.62%",
+        "items": [
+            "phyllo dough"
+        ]
+    },
+    "cooking oil": {
+        "count": 2711,
+        "support": 0.06816010459093881,
+        "support_percentage": "6.82%",
+        "items": [
+            "cooking oil"
+        ]
+    },
+    "pie crust": {
+        "count": 333,
+        "support": 0.008372303514858953,
+        "support_percentage": "0.84%",
+        "items": [
+            "pie crust"
+        ]
+    },
+    "shortening": {
+        "count": 383,
+        "support": 0.009629406144717655,
+        "support_percentage": "0.96%",
+        "items": [
+            "shortening"
+        ]
+    },
+    "molasses": {
+        "count": 167,
+        "support": 0.004198722783728064,
+        "support_percentage": "0.42%",
+        "items": [
+            "molasses"
+        ]
+    },
+    "cracker": {
+        "count": 101,
+        "support": 0.0025393473123145774,
+        "support_percentage": "0.25%",
+        "items": [
+            "cracker"
+        ]
+    },
+    "nance": {
+        "count": 275,
+        "support": 0.006914064464222859,
+        "support_percentage": "0.69%",
+        "items": [
+            "nance"
+        ]
+    },
+    "evaporated milk": {
+        "count": 226,
+        "support": 0.005682103886961332,
+        "support_percentage": "0.57%",
+        "items": [
+            "evaporated milk"
+        ]
+    },
+    "flour": {
+        "count": 6361,
+        "support": 0.15992859657062403,
+        "support_percentage": "15.99%",
+        "items": [
+            "flour"
+        ]
+    },
+    "dough": {
+        "count": 113,
+        "support": 0.002841051943480666,
+        "support_percentage": "0.28%",
+        "items": [
+            "dough"
+        ]
+    },
+    "pita bread": {
+        "count": 208,
+        "support": 0.005229546940212199,
+        "support_percentage": "0.52%",
+        "items": [
+            "pita bread"
+        ]
+    },
+    "focaccia": {
+        "count": 240,
+        "support": 0.006034092623321768,
+        "support_percentage": "0.60%",
+        "items": [
+            "focaccia"
+        ]
+    },
+    "bagel": {
+        "count": 280,
+        "support": 0.007039774727208729,
+        "support_percentage": "0.70%",
+        "items": [
+            "bagel"
+        ]
+    },
+    "piki bread": {
+        "count": 359,
+        "support": 0.009025996882385479,
+        "support_percentage": "0.90%",
+        "items": [
+            "piki bread"
+        ]
+    },
+    "french toast": {
+        "count": 202,
+        "support": 0.005078694624629155,
+        "support_percentage": "0.51%",
+        "items": [
+            "french toast"
+        ]
+    },
+    "corn grits": {
+        "count": 631,
+        "support": 0.015864635188816815,
+        "support_percentage": "1.59%",
+        "items": [
+            "corn grits"
+        ]
+    },
+    "vegetable juice": {
+        "count": 527,
+        "support": 0.013249861718710716,
+        "support_percentage": "1.32%",
+        "items": [
+            "vegetable juice"
+        ]
+    },
+    "frozen yogurt": {
+        "count": 209,
+        "support": 0.005254688992809373,
+        "support_percentage": "0.53%",
+        "items": [
+            "frozen yogurt"
+        ]
+    },
+    "dripping": {
+        "count": 126,
+        "support": 0.0031678986272439284,
+        "support_percentage": "0.32%",
+        "items": [
+            "dripping"
+        ]
+    },
+    "pupusa": {
+        "count": 1332,
+        "support": 0.033489214059435814,
+        "support_percentage": "3.35%",
+        "items": [
+            "pupusa"
+        ]
+    },
+    "stuffing": {
+        "count": 755,
+        "support": 0.018982249710866397,
+        "support_percentage": "1.90%",
+        "items": [
+            "stuffing"
+        ]
+    },
+    "condensed milk": {
+        "count": 463,
+        "support": 0.011640770352491578,
+        "support_percentage": "1.16%",
+        "items": [
+            "condensed milk"
+        ]
+    },
+    "margarine": {
+        "count": 392,
+        "support": 0.009855684618092221,
+        "support_percentage": "0.99%",
+        "items": [
+            "margarine"
+        ]
+    },
+    "milk substitute": {
+        "count": 3489,
+        "support": 0.0877206215115402,
+        "support_percentage": "8.77%",
+        "items": [
+            "milk substitute"
+        ]
+    },
+    "soft-necked garlic": {
+        "count": 277,
+        "support": 0.006964348569417207,
+        "support_percentage": "0.70%",
+        "items": [
+            "soft-necked garlic"
+        ]
+    },
+    "cabbage": {
+        "count": 442,
+        "support": 0.011112787247950923,
+        "support_percentage": "1.11%",
+        "items": [
+            "cabbage"
+        ]
+    },
+    "mushrooms": {
+        "count": 1121,
+        "support": 0.028184240961432093,
+        "support_percentage": "2.82%",
+        "items": [
+            "mushrooms"
+        ]
+    },
+    "fats and oils": {
+        "count": 281,
+        "support": 0.007064916779805903,
+        "support_percentage": "0.71%",
+        "items": [
+            "fats and oils"
+        ]
+    },
+    "mollusks": {
+        "count": 763,
+        "support": 0.019183386131643786,
+        "support_percentage": "1.92%",
+        "items": [
+            "mollusks"
+        ]
+    },
+    "green vegetables": {
+        "count": 309,
+        "support": 0.0077688942525267765,
+        "support_percentage": "0.78%",
+        "items": [
+            "green vegetables"
+        ]
+    },
+    "sunburst squash (pattypan squash)": {
+        "count": 433,
+        "support": 0.010886508774576356,
+        "support_percentage": "1.09%",
+        "items": [
+            "sunburst squash (pattypan squash)"
+        ]
+    },
+    "green bell pepper": {
+        "count": 4893,
+        "support": 0.12302006335797254,
+        "support_percentage": "12.30%",
+        "items": [
+            "green bell pepper"
+        ]
+    },
+    "yellow bell pepper": {
+        "count": 341,
+        "support": 0.008573439935636345,
+        "support_percentage": "0.86%",
+        "items": [
+            "yellow bell pepper"
+        ]
+    },
+    "red bell pepper": {
+        "count": 5424,
+        "support": 0.13637049328707196,
+        "support_percentage": "13.64%",
+        "items": [
+            "red bell pepper"
+        ]
+    },
+    "italian sweet red pepper": {
+        "count": 418,
+        "support": 0.010509377985618747,
+        "support_percentage": "1.05%",
+        "items": [
+            "italian sweet red pepper"
+        ]
+    },
+    "yellow wax bean": {
+        "count": 457,
+        "support": 0.011489918036908534,
+        "support_percentage": "1.15%",
+        "items": [
+            "yellow wax bean"
+        ]
+    },
+    "green bean": {
+        "count": 596,
+        "support": 0.014984663347915725,
+        "support_percentage": "1.50%",
+        "items": [
+            "green bean"
+        ]
+    },
+    "romaine lettuce": {
+        "count": 289,
+        "support": 0.007266053200583295,
+        "support_percentage": "0.73%",
+        "items": [
+            "romaine lettuce"
+        ]
+    },
+    "olive oil": {
+        "count": 7974,
+        "support": 0.20048272740986575,
+        "support_percentage": "20.05%",
+        "items": [
+            "olive oil"
+        ]
+    },
+    "red wine": {
+        "count": 315,
+        "support": 0.00791974656810982,
+        "support_percentage": "0.79%",
+        "items": [
+            "red wine"
+        ]
+    },
+    "white wine": {
+        "count": 406,
+        "support": 0.010207673354452657,
+        "support_percentage": "1.02%",
+        "items": [
+            "white wine"
+        ]
+    },
+    "egg yolk": {
+        "count": 1484,
+        "support": 0.037310806054206266,
+        "support_percentage": "3.73%",
+        "items": [
+            "egg yolk"
+        ]
+    },
+    "canola oil": {
+        "count": 1228,
+        "support": 0.030874440589329713,
+        "support_percentage": "3.09%",
+        "items": [
+            "canola oil"
+        ]
+    },
+    "mozzarella cheese": {
+        "count": 1693,
+        "support": 0.042565495047015636,
+        "support_percentage": "4.26%",
+        "items": [
+            "mozzarella cheese"
+        ]
+    },
+    "plain cream cheese": {
+        "count": 106,
+        "support": 0.0026650575753004477,
+        "support_percentage": "0.27%",
+        "items": [
+            "plain cream cheese"
+        ]
+    },
+    "cheddar cheese": {
+        "count": 1844,
+        "support": 0.04636194498918892,
+        "support_percentage": "4.64%",
+        "items": [
+            "cheddar cheese"
+        ]
+    },
+    "parmesan cheese": {
+        "count": 3054,
+        "support": 0.0767838286317695,
+        "support_percentage": "7.68%",
+        "items": [
+            "parmesan cheese"
+        ]
+    },
+    "coconut milk": {
+        "count": 972,
+        "support": 0.02443807512445316,
+        "support_percentage": "2.44%",
+        "items": [
+            "coconut milk"
+        ]
+    },
+    "salted butter": {
+        "count": 137,
+        "support": 0.0034444612058128427,
+        "support_percentage": "0.34%",
+        "items": [
+            "salted butter"
+        ]
+    },
+    "coconut oil": {
+        "count": 224,
+        "support": 0.005631819781766983,
+        "support_percentage": "0.56%",
+        "items": [
+            "coconut oil"
+        ]
+    },
+    "peanut oil": {
+        "count": 683,
+        "support": 0.017172021923869865,
+        "support_percentage": "1.72%",
+        "items": [
+            "peanut oil"
+        ]
+    },
+    "corn oil": {
+        "count": 127,
+        "support": 0.003193040679841102,
+        "support_percentage": "0.32%",
+        "items": [
+            "corn oil"
+        ]
+    },
+    "grapeseed oil": {
+        "count": 168,
+        "support": 0.004223864836325237,
+        "support_percentage": "0.42%",
+        "items": [
+            "grapeseed oil"
+        ]
+    },
+    "sesame oil": {
+        "count": 2312,
+        "support": 0.05812842560466636,
+        "support_percentage": "5.81%",
+        "items": [
+            "sesame oil"
+        ]
+    },
+    "monterey jack cheese": {
+        "count": 853,
+        "support": 0.02144617086538945,
+        "support_percentage": "2.14%",
+        "items": [
+            "monterey jack cheese"
+        ]
+    },
+    "swiss cheese": {
+        "count": 112,
+        "support": 0.0028159098908834917,
+        "support_percentage": "0.28%",
+        "items": [
+            "swiss cheese"
+        ]
+    },
+    "cottage cheese": {
+        "count": 261,
+        "support": 0.006562075727862423,
+        "support_percentage": "0.66%",
+        "items": [
+            "cottage cheese"
+        ]
+    },
+    "clam": {
+        "count": 214,
+        "support": 0.005380399255795243,
+        "support_percentage": "0.54%",
+        "items": [
+            "clam"
+        ]
+    },
+    "sour cream": {
+        "count": 1912,
+        "support": 0.048071604565796754,
+        "support_percentage": "4.81%",
+        "items": [
+            "sour cream"
+        ]
+    },
+    "jalapeno pepper": {
+        "count": 1765,
+        "support": 0.04437572283401217,
+        "support_percentage": "4.44%",
+        "items": [
+            "jalapeno pepper"
+        ]
+    },
+    "greek feta cheese": {
+        "count": 371,
+        "support": 0.009327701513551567,
+        "support_percentage": "0.93%",
+        "items": [
+            "greek feta cheese"
+        ]
+    },
+    "white onion": {
+        "count": 684,
+        "support": 0.017197163976467037,
+        "support_percentage": "1.72%",
+        "items": [
+            "white onion"
+        ]
+    },
+    "red onion": {
+        "count": 1186,
+        "support": 0.029818474380248403,
+        "support_percentage": "2.98%",
+        "items": [
+            "red onion"
+        ]
+    },
+    "green cabbage": {
+        "count": 207,
+        "support": 0.005204404887615025,
+        "support_percentage": "0.52%",
+        "items": [
+            "green cabbage"
+        ]
+    },
+    "cannellini bean": {
+        "count": 569,
+        "support": 0.014305827927792026,
+        "support_percentage": "1.43%",
+        "items": [
+            "cannellini bean"
+        ]
+    },
+    "acorn squash": {
+        "count": 152,
+        "support": 0.003821591994770453,
+        "support_percentage": "0.38%",
+        "items": [
+            "acorn squash"
+        ]
+    },
+    "iceberg lettuce": {
+        "count": 218,
+        "support": 0.005480967466183939,
+        "support_percentage": "0.55%",
+        "items": [
+            "iceberg lettuce"
+        ]
+    },
+    "yau choy": {
+        "count": 382,
+        "support": 0.009604264092120481,
+        "support_percentage": "0.96%",
+        "items": [
+            "yau choy"
+        ]
+    },
+    "white bread": {
+        "count": 198,
+        "support": 0.004978126414240458,
+        "support_percentage": "0.50%",
+        "items": [
+            "white bread"
+        ]
+    }
+}
