@@ -5,18 +5,16 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
-from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score, silhouette_score
+from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 from sklearn.preprocessing import StandardScaler
-import plotly.graph_objects as go
 import plotly.express as px
-from plotly.subplots import make_subplots
 from collections import Counter, defaultdict
 import warnings
 
 warnings.filterwarnings('ignore')
 
 # Import your existing classes
-from Hierarchial_clustering import FrequentItemsetClustering, enhanced_analyze_clusters
+from Hierarchial_clustering import FrequentItemsetClustering
 
 
 class ComprehensiveClusteringAnalysis:
@@ -273,6 +271,7 @@ class ComprehensiveClusteringAnalysis:
             'itemset_size': itemset_size,
             'strategy': strategy,
             'sample_size': len(sample_transactions),
+            'sample_transactions': sample_transactions,
             'sample_indices': sample_indices,
             'selected_itemsets': selected_itemsets,
             'feature_matrix': feature_matrix,
@@ -556,14 +555,13 @@ class ComprehensiveClusteringAnalysis:
 
         return best_results
 
-
 def main():
     """Main execution function"""
 
     # Initialize analysis
     analyzer = ComprehensiveClusteringAnalysis(
-        data_path="ingredient_matching_best_of_both_results.json",
-        cuisine_data_path="../whats-cooking/train.json/train.json"
+        data_path="ingredient_matching_adaptive_results.json",
+        cuisine_data_path="whats-cooking/train.json"
     )
 
     # Run comprehensive analysis
@@ -596,7 +594,7 @@ def main():
         plt.show()
 
     # Create metrics comparison
-    metrics_fig = analyzer.create_metrics_comparison_plot()
+    #metrics_fig = analyzer.create_metrics_comparison_plot()
     plt.show()
 
     print("\nAnalysis complete!")

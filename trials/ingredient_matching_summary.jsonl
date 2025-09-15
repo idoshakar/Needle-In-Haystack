@@ -1,0 +1,26 @@
+{
+  "adaptive": {
+    "total_recipes": 39774,
+    "total_ingredients": 428275,
+    "processing_time": 239.0831639766693,
+    "stats": {
+      "total_ingredients": 428275,
+      "methods_used": {
+        "exact": 172395,
+        "fuzzy": 49851,
+        "database": 95279,
+        "fuzzy_fallback": 41921,
+        "database_fallback": 68829
+      },
+      "confidence_levels": {
+        "very_high": 172395,
+        "medium": 232696,
+        "low": 1892,
+        "high": 14488,
+        "very_low": 6804
+      },
+      "high_confidence_rate": 0.43636215048742044,
+      "average_score": 0.8429388696390125
+    }
+  }
+}

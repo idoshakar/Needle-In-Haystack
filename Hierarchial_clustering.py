@@ -9,8 +9,6 @@ from scipy.spatial.distance import pdist, squareform
 from sklearn.metrics import jaccard_score
 import warnings
 
-from mapping import extract_ingredients, extract_cuisines
-
 warnings.filterwarnings('ignore')
 
 import numpy as np

@@ -1,6 +1,6 @@
 import cluster
 import numpy as np
-import mapping
+from compare import *
 import shelve
 
 def recommend_recipe(ingredients, experiment_result, n_clusters = 10):
@@ -11,8 +11,14 @@ def recommend_recipe(ingredients, experiment_result, n_clusters = 10):
     experiment_result: output dict from run_single_experiment
     n_clusters: number of clusters used in that experiment
     """
-    search = mapping.Search('recipe_cuisine.db')
-    ingredients = set(mapping.resolve_words(list(ingredients)))
+
+    # Initialize pipeline with real databases
+    matcher = HybridIngredientMatcher(
+        foods_db_path=FINAL_FOOD_DATASET,
+        foodb_path=FOOD_JSON
+    )
+    results = matcher.match_ingredients_batch(list(ingredients))
+    ingredients = set([r.matched for r in results])
     feature_matrix = experiment_result['feature_matrix']
     clusters = experiment_result['cluster_results'][n_clusters]['clusters']
     recipes = experiment_result['sample_transactions']
@@ -49,13 +55,15 @@ def recommend_recipe(ingredients, experiment_result, n_clusters = 10):
         "cluster": best_cluster
     }
 
-def main(itemset_size: int):
+def main(ingredients: set[str]) -> dict:
+    itemset_size = len(ingredients)
+
     with shelve.open('run_single_experiment') as db:
         experiment_result = db.get(str(itemset_size), None)
 
     if experiment_result is None:
         analyzer = cluster.ComprehensiveClusteringAnalysis(
-            data_path="train_lines.json",
+            data_path="ingredient_matching_adaptive_results.json",
             cuisine_data_path="whats-cooking/train.json"
         )
 
@@ -65,12 +73,11 @@ def main(itemset_size: int):
         with shelve.open('run_single_experiment') as db:
             db[str(itemset_size)] = experiment_result
 
-    rec = recommend_recipe(
-        {"onion", "mayonaise"},  # input ingredients
+    return recommend_recipe(
+        ingredients,  # input ingredients
         experiment_result          # pick the same n_clusters you used in clustering
     )
 
-    print(rec)
 
 if __name__ == '__main__':
-    main(2)
+    print(main({"onion", "mayonaise"}))

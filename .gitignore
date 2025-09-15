@@ -1,0 +1,108 @@
+prev/mapping_serp.py
+prev/mapping.py
+prev/output_serp.txt
+prev/output.txt
+prev/recipe_cuisine.py.bkp
+prev/stopped
+whats-cooking/setup.py
+FINAL FOOD DATASET/FOOD-DATA-GROUP1.csv
+FINAL FOOD DATASET/FOOD-DATA-GROUP2.csv
+FINAL FOOD DATASET/FOOD-DATA-GROUP3.csv
+FINAL FOOD DATASET/FOOD-DATA-GROUP4.csv
+FINAL FOOD DATASET/FOOD-DATA-GROUP5.csv
+FINAL FOOD DATASET/DATASET/GROUP-1_Description.csv
+FINAL FOOD DATASET/DATASET/GROUP-1_Heatmap.png
+FINAL FOOD DATASET/DATASET/GROUP-1_Histogram_of_Caloric Value.png
+FINAL FOOD DATASET/DATASET/GROUP-1_Histogram_of_Carbohydrates.png
+FINAL FOOD DATASET/DATASET/GROUP-1_Histogram_of_Dietary Fiber.png
+FINAL FOOD DATASET/DATASET/GROUP-1_Histogram_of_Fat.png
+FINAL FOOD DATASET/DATASET/GROUP-1_Histogram_of_Protein.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Description.csv
+FINAL FOOD DATASET/DATASET/GROUP-2_Heatmap.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Histogram_of_Caloric Value.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Histogram_of_Carbohydrates.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Histogram_of_Dietary Fiber.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Histogram_of_Fat.png
+FINAL FOOD DATASET/DATASET/GROUP-2_Histogram_of_Protein.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Description.csv
+FINAL FOOD DATASET/DATASET/GROUP-3_Heatmap.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Histogram_of_Caloric Value.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Histogram_of_Carbohydrates.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Histogram_of_Dietary Fiber.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Histogram_of_Fat.png
+FINAL FOOD DATASET/DATASET/GROUP-3_Histogram_of_Protein.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Description.csv
+FINAL FOOD DATASET/DATASET/GROUP-4_Heatmap.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Histogram_of_Caloric Value.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Histogram_of_Carbohydrates.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Histogram_of_Dietary Fiber.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Histogram_of_Fat.png
+FINAL FOOD DATASET/DATASET/GROUP-4_Histogram_of_Protein.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Description.csv
+FINAL FOOD DATASET/DATASET/GROUP-5_Heatmap.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Histogram_of_Caloric Value.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Histogram_of_Carbohydrates.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Histogram_of_Dietary Fiber.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Histogram_of_Fat.png
+FINAL FOOD DATASET/DATASET/GROUP-5_Histogram_of_Protein.png
+FINAL FOOD DATASET/METADATA/Combined_FOOD_METADATA.csv
+FINAL FOOD DATASET/METADATA/GROUP-1_analysis_summary.csv
+FINAL FOOD DATASET/METADATA/GROUP-2_analysis_summary.csv
+FINAL FOOD DATASET/METADATA/GROUP-3_analysis_summary.csv
+FINAL FOOD DATASET/METADATA/GROUP-4_analysis_summary.csv
+FINAL FOOD DATASET/METADATA/GROUP-5_analysis_summary.csv
+foodb/.DS_Store
+foodb/AccessionNumber.json
+foodb/Compound.json
+foodb/CompoundAlternateParent.json
+foodb/CompoundExternalDescriptor.json
+foodb/CompoundOntologyTerm.json
+foodb/CompoundsEnzyme.json
+foodb/CompoundsFlavor.json
+foodb/CompoundsHealthEffect.json
+foodb/CompoundsPathway.json
+foodb/CompoundSubstituent.json
+foodb/CompoundSynonym.json
+foodb/Content.json
+foodb/Enzyme.json
+foodb/EnzymeSynonym.json
+foodb/Flavor.json
+foodb/FoodTaxonomy.json
+foodb/HealthEffect.json
+foodb/MapItemsPathway.json
+foodb/NcbiTaxonomyMap.json
+foodb/Nutrient.json
+foodb/OntologySynonym.json
+foodb/OntologyTerm.json
+foodb/Pathway.json
+foodb/PdbIdentifier.json
+foodb/Pfam.json
+foodb/PfamMembership.json
+foodb/Reference.json
+foodb/Sequence.json
+cached_search
+pack.sh
+pack.zip
+pyrightconfig.json
+recipe_cuisine.db
+run_single_experiment
+test_testblob.py
+__pycache__/cluster.cpython-313.pyc
+TODO
+prev/cached_google
+prev/cached_google_serp
+prev/cached_google_serp_verbatim
+prev/cached_google_verbatim
+prev/google_search_scraper.py
+prev/google.html
+misc/nnsim.py
+misc/test_serpapi.py
+misc/testing_customsearch.py
+whats-cooking/train_lines.json
+*.pyc
+.zed/settings.json
+FoodData_Central_csv_2025-04-24.zip
+cached_fuzzy
+commands.sql
+combine_food_compounds.py
+output.csv

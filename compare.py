@@ -6,12 +6,46 @@ import glob
 import duckdb
 import shelve
 import spellchecker
-from typing import Dict, List, Tuple, Optional, Union
+from typing import Dict, List, Tuple, Optional
 from rapidfuzz import fuzz
 from dataclasses import dataclass
 import warnings
 
-from trials import get_json_files_in_directory
+from pathlib import Path
+
+def get_json_files_in_directory(directory_path):
+    """
+    Finds and loads all JSON files from a specified directory.
+
+    Args:
+        directory_path (str or Path): The path to the directory.
+
+    Returns:
+        list: A list of dictionaries, where each dictionary
+              is the content of a JSON file.
+    """
+    json_data = []
+    # Create a Path object from the given directory string
+    path = Path(directory_path)
+
+    # Use glob() to find all files ending with '.json'
+    for file_path in path.glob("*.json"):
+        #try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                json_data.append(data)
+        # except (json.JSONDecodeError, FileNotFoundError) as e:
+        #     print(f"Error reading {file_path}: {e}")
+
+    return json_data
+
+# Example usage:
+# Assuming you have a folder named 'my_data' with some JSON files
+# my_data/file1.json
+# my_data/file2.json
+# all_json_content = get_json_files_in_directory('my_data')
+# print(all_json_content)
+
 
 warnings.filterwarnings('ignore')
 
@@ -19,6 +53,11 @@ warnings.filterwarnings('ignore')
 spell = spellchecker.SpellChecker('en')
 spell.distance = 1
 
+FOOD_JSON = 'foodb/Food.json'
+
+FINAL_FOOD_DATASET = 'FINAL FOOD DATASET//FOOD-DATA-GROUP*.csv'
+
+RECIPES = 'whats-cooking/train.json'
 
 def correct(sentence: str) -> str:
     words = sentence.split()
@@ -40,14 +79,14 @@ class MatchResult:
     score: float
     method: str
     confidence: str
-    metadata: Dict = None
+    metadata: Dict | None = None
 
 
 class DatabaseSearch:
     """Wrapper for the DuckDB search functionality"""
 
     def __init__(self, database_name: str = ':memory:',
-                 ingredients_file: str = 'foodb_2020_04_07_json/foodb_2020_04_07_json/Food.json'):
+                 ingredients_file: str = FOOD_JSON):
         self._database_name = database_name
         self.ingredients_file = ingredients_file
         self.con = None
@@ -99,8 +138,8 @@ class HybridIngredientMatcher:
     Combines fuzzy matching with real database search for optimal ingredient normalization.
     """
 
-    def __init__(self, foods_db_path: str = None,
-                 foodb_path: str = 'foodb_2020_04_07_json/foodb_2020_04_07_json/Food.json',
+    def __init__(self, foods_db_path: str,
+                 foodb_path: str = FOOD_JSON,
                  fuzzy_threshold: float = 0.8,
                  db_threshold: float = 0.7):
         """
@@ -117,23 +156,23 @@ class HybridIngredientMatcher:
         self.foodb_path = foodb_path
 
         # Load fuzzy matching database
-        if foods_db_path:
-            csv_files = glob.glob(foods_db_path)
-            df_combined = pd.concat([pd.read_csv(file) for file in csv_files], ignore_index=True)
-            df_combined['food'] = self._clean_ingredients_fuzzy(df_combined['food'])
-            self.ingredient_database = df_combined['food'].str.replace("suger", "sugar").tolist()
-        else:
-            # Default database if no path provided
-            self.ingredient_database = [
-                'salt', 'pepper', 'sugar', 'white sugar', 'brown sugar', 'flour', 'butter',
-                'milk', 'egg', 'eggs', 'cheese', 'cheddar cheese', 'tomato', 'tomatoes',
-                'onion', 'red onion', 'garlic', 'olive oil', 'vegetable oil', 'chicken',
-                'beef', 'pork', 'rice', 'pasta', 'bread', 'lettuce', 'romaine lettuce',
-                'carrot', 'potato', 'apple', 'soy sauce', 'vinegar', 'rice vinegar',
-                'lemon', 'ginger', 'basil', 'oregano', 'vanilla extract', 'baking powder',
-                'tomato sauce', 'chicken breast', 'ground beef', 'bell pepper', 'mushrooms',
-                'sesame oil', 'hoisin sauce', 'wonton wrappers'
-            ]
+        #if foods_db_path:
+        csv_files = glob.glob(foods_db_path)
+        df_combined = pd.concat([pd.read_csv(file) for file in csv_files], ignore_index=True)
+        df_combined['food'] = self._clean_ingredients_fuzzy(df_combined['food'])
+        self.ingredient_database = df_combined['food'].str.replace("suger", "sugar").tolist()
+        # else:
+        #     # Default database if no path provided
+        #     self.ingredient_database = [
+        #         'salt', 'pepper', 'sugar', 'white sugar', 'brown sugar', 'flour', 'butter',
+        #         'milk', 'egg', 'eggs', 'cheese', 'cheddar cheese', 'tomato', 'tomatoes',
+        #         'onion', 'red onion', 'garlic', 'olive oil', 'vegetable oil', 'chicken',
+        #         'beef', 'pork', 'rice', 'pasta', 'bread', 'lettuce', 'romaine lettuce',
+        #         'carrot', 'potato', 'apple', 'soy sauce', 'vinegar', 'rice vinegar',
+        #         'lemon', 'ginger', 'basil', 'oregano', 'vanilla extract', 'baking powder',
+        #         'tomato sauce', 'chicken breast', 'ground beef', 'bell pepper', 'mushrooms',
+        #         'sesame oil', 'hoisin sauce', 'wonton wrappers'
+        #     ]
 
         # Create lookup sets for fast exact matching
         self.exact_lookup = set([ing.lower().strip() for ing in self.ingredient_database])
@@ -206,41 +245,48 @@ class HybridIngredientMatcher:
         with shelve.open("cached_search") as db:
             result = db.get(ingredient, None)
             if result:
-                return result, 1.0  # Cached results assumed high confidence
+                return result  # Cached results assumed high confidence
 
         # Spell correction
         corrected_ingredient = correct(ingredient)
 
         # Search in database
-        try:
-            with DatabaseSearch(ingredients_file=self.foodb_path) as search:
-                # Try original first
-                results = search.resolve_word(ingredient)
-                if not results and corrected_ingredient != ingredient:
-                    # Try corrected version
-                    results = search.resolve_word(corrected_ingredient)
-                    if results:
-                        print(f"original: {ingredient}, corrected: {corrected_ingredient}")
-
+        #try:
+        with DatabaseSearch(ingredients_file=self.foodb_path) as search:
+            # Try original first
+            results = search.resolve_word(ingredient)
+            if not results and corrected_ingredient != ingredient:
+                # Try corrected version
+                results = search.resolve_word(corrected_ingredient)
                 if results:
-                    best_match = results[0].lower()
+                    print(f"original: {ingredient}, corrected: {corrected_ingredient}")
 
-                    # Calculate confidence based on position in results
-                    confidence = 1.0 if len(results) == 1 else max(0.7, 1.0 - (0.1 * min(3, len(results))))
+            if results:
+                best_match = results[0].lower()
 
-                    # Cache the result
-                    with shelve.open("cached_search") as db:
-                        db[ingredient] = best_match
+                # Calculate confidence based on position in results
+                confidence = 1.0 if len(results) == 1 else max(0.7, 1.0 - (0.1 * min(3, len(results))))
 
-                    return best_match, confidence
-        except Exception as e:
-            print(f"Database search failed for '{ingredient}': {e}")
-            return ingredient, 0.0
+                # Cache the result
+                with shelve.open("cached_search") as db:
+                    db[ingredient] = best_match, confidence
 
+                return best_match, confidence
+        # except Exception as e:
+        #     print(f"Database search failed for '{ingredient}': {e}")
+        #     return ingredient, 0.0
+        with shelve.open("cached_search") as db:
+            db[ingredient] = "", 0.0
         return ingredient, 0.0
 
     def fuzzy_match(self, cleaned_ingredient: str) -> List[Tuple[str, float]]:
         """Enhanced fuzzy matching with hierarchical scoring (your original method)"""
+
+        with shelve.open("cached_fuzzy") as db:
+            result = db.get(cleaned_ingredient, None)
+            if result:
+                return result  # Cached results assumed high confidence
+
         results = []
 
         for candidate in self.ingredient_database:
@@ -282,7 +328,12 @@ class HybridIngredientMatcher:
             final_score = min(enhanced_score + exact_bonus, 1.0)
             results.append((candidate, final_score))
 
-        return sorted(results, key=lambda x: x[1], reverse=True)
+        ret = sorted(results, key=lambda x: x[1], reverse=True)
+
+        with shelve.open("cached_fuzzy") as db:
+            db[cleaned_ingredient] = ret
+
+        return ret
 
     def get_confidence_level(self, score: float, method: str) -> str:
         """Determine confidence level based on score and method"""
@@ -294,23 +345,35 @@ class HybridIngredientMatcher:
             return 'medium'
         elif score >= 0.5:
             return 'low'
-        else:
+        elif score != 0.0:
             return 'very_low'
+        else:
+            return 'none'
 
     def match_ingredient(self, ingredient: str, strategy: str = 'adaptive') -> MatchResult:
         """
         Main matching function that combines real database search with fuzzy matching
         """
+        with shelve.open("cached_search_" + strategy) as db:
+            result = db.get(ingredient, None)
+            if result:
+                return result
+
         if strategy == 'adaptive':
-            return self._adaptive_match(ingredient)
+            ret = self._adaptive_match(ingredient)
         elif strategy == 'db_first':
-            return self._db_first_match(ingredient)
+            ret = self._db_first_match(ingredient)
         elif strategy == 'fuzzy_first':
-            return self._fuzzy_first_match(ingredient)
+            ret = self._fuzzy_first_match(ingredient)
         elif strategy == 'best_of_both':
-            return self._best_of_both_match(ingredient)
+            ret = self._best_of_both_match(ingredient)
         else:
             raise ValueError(f"Unknown strategy: {strategy}")
+
+        with shelve.open("cached_search_" + strategy) as db:
+            db[ingredient] = ret
+
+        return ret
 
     def _adaptive_match(self, ingredient: str) -> MatchResult:
         """Adaptive strategy using real databases"""
@@ -394,7 +457,7 @@ class HybridIngredientMatcher:
             matched=cleaned_fuzzy,
             score=0.0,
             method='no_match',
-            confidence='very_low'
+            confidence='none'
         )
 
     def _best_of_both_match(self, ingredient: str) -> MatchResult:
@@ -485,7 +548,7 @@ class HybridIngredientMatcher:
                 'fuzzy_fallback', self.get_confidence_level(fuzzy_results[0][1], 'fuzzy')
             )
 
-        return MatchResult(ingredient, cleaned_fuzzy, cleaned_fuzzy, 0.0, 'no_match', 'very_low')
+        return MatchResult(ingredient, cleaned_fuzzy, cleaned_fuzzy, 0.0, 'no_match', 'none')
 
     def _fuzzy_first_match(self, ingredient: str) -> MatchResult:
         """Try fuzzy method first, fallback to real database"""
@@ -511,7 +574,7 @@ class HybridIngredientMatcher:
                 'database_fallback', self.get_confidence_level(db_score, 'database')
             )
 
-        return MatchResult(ingredient, cleaned_fuzzy, cleaned_fuzzy, 0.0, 'no_match', 'very_low')
+        return MatchResult(ingredient, cleaned_fuzzy, cleaned_fuzzy, 0.0, 'no_match', 'none')
 
     def match_ingredients_batch(self, ingredients: List[str],
                                 strategy: str = 'adaptive') -> List[MatchResult]:
@@ -519,7 +582,8 @@ class HybridIngredientMatcher:
         results = []
         for ingredient in ingredients:
             result = self.match_ingredient(ingredient, strategy)
-            results.append(result)
+            if result.confidence != 'none':
+                results.append(result)
         return results
 
     def get_statistics(self, results: List[MatchResult]) -> Dict:
@@ -548,8 +612,8 @@ class HybridIngredientMatcher:
 def create_real_pipeline():
     """Process all recipes with all matching methods"""
 
-    foods_db_path = "C://Users//User//Desktop//needle_in_haystack//NeadleInHaystack//archive//FINAL FOOD DATASET//FOOD-DATA-GROUP*.csv"
-    foodb_path = 'foodb_2020_04_07_json/foodb_2020_04_07_json/Food.json'
+    foods_db_path = FINAL_FOOD_DATASET
+    foodb_path = FOOD_JSON
 
     # Initialize pipeline with real databases
     matcher = HybridIngredientMatcher(
@@ -561,39 +625,39 @@ def create_real_pipeline():
     print("\nLOADING RECIPE FILE")
     print("=" * 40)
 
-    recipe_file_path = '../whats-cooking/train.json/train.json'
+    recipe_file_path = RECIPES
     print(f"Loading recipe file: {recipe_file_path}")
 
-    try:
-        import os
-        if os.path.exists(recipe_file_path):
-            file_size = os.path.getsize(recipe_file_path) / (1024 * 1024)  # MB
-            print(f"Recipe file found: {file_size:.2f} MB")
-        else:
-            print(f"ERROR: Recipe file not found at {recipe_file_path}")
-            return
+    #try:
+        # import os
+        # if os.path.exists(recipe_file_path):
+        #     file_size = os.path.getsize(recipe_file_path) / (1024 * 1024)  # MB
+        #     print(f"Recipe file found: {file_size:.2f} MB")
+        # else:
+        #     print(f"ERROR: Recipe file not found at {recipe_file_path}")
+        #     return
 
         # Load the JSON file
-        with open(recipe_file_path, 'r', encoding='utf-8') as file:
-            recipes_data = json.load(file)
+    with open(recipe_file_path, 'r', encoding='utf-8') as file:
+        recipes_data = json.load(file)
 
-        print(f"Loaded {len(recipes_data)} recipes from file")
+    print(f"Loaded {len(recipes_data)} recipes from file")
 
-        # Show sample recipe structure
-        if recipes_data:
-            sample_recipe = recipes_data[0]
-            print(f"Sample recipe structure: {list(sample_recipe.keys())}")
-            if 'ingredients' in sample_recipe:
-                print(f"Sample ingredients: {sample_recipe['ingredients'][:3]}")
+    # Show sample recipe structure
+    if recipes_data:
+        sample_recipe = recipes_data[0]
+        print(f"Sample recipe structure: {list(sample_recipe.keys())}")
+        if 'ingredients' in sample_recipe:
+            print(f"Sample ingredients: {sample_recipe['ingredients'][:3]}")
 
-    except Exception as e:
-        print(f"ERROR loading recipe file: {e}")
-        return
+    # except Exception as e:
+    #     print(f"ERROR loading recipe file: {e}")
+    #     return
 
     # All strategies to test
-    strategies = ['adaptive', 'best_of_both', 'db_first', 'fuzzy_first']
-
-    print("\nPROCESSING ALL RECIPES WITH ALL METHODS")
+    #strategies = ['adaptive', 'best_of_both', 'db_first', 'fuzzy_first']
+    strategies = ['adaptive']
+    #print("\nPROCESSING ALL RECIPES WITH ALL METHODS")
     print("=" * 60)
 
     all_results = {}
@@ -611,7 +675,7 @@ def create_real_pipeline():
 
         # Process all recipes in the list
         for recipe_idx, recipe in enumerate(recipes_data):
-            try:
+            #try:
                 recipe_title = recipe.get('title', recipe.get('id', f'Recipe_{recipe_idx}'))
 
                 if 'ingredients' not in recipe:
@@ -626,7 +690,7 @@ def create_real_pipeline():
                     # If ingredients are in format [["ingredient", "amount"], ...]
                     ingredients = [item[0] if isinstance(item, list) else item for item in ingredients]
 
-                print(f"    Recipe '{recipe_title}': {len(ingredients)} ingredients")
+                #print(f"    Recipe '{recipe_title}': {len(ingredients)} ingredients")
                 if recipe_idx == 0:  # Show first recipe's ingredients
                     print(f"      Sample ingredients: {ingredients[:3]}")
 
@@ -653,9 +717,9 @@ def create_real_pipeline():
                 if total_recipes % 1000 == 0:
                     print(f"  Processed {total_recipes} recipes...")
 
-            except Exception as e:
-                print(f"    ERROR processing recipe {recipe_idx}: {e}")
-                continue
+            # except Exception as e:
+            #     print(f"    ERROR processing recipe {recipe_idx}: {e}")
+            #     continue
 
         elapsed_time = time.time() - start_time
 
@@ -692,40 +756,41 @@ def create_real_pipeline():
         }
 
     # Save all results to files
-    print(f"\nSAVING RESULTS...")
+        print("\nSAVING RESULTS...")
 
-    # Save detailed results for each strategy
-    for strategy, results in all_results.items():
+        # Save detailed results for each strategy
         output_file = f'ingredient_matching_{strategy}_results.json'
-        try:
-            with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(results, f, indent=2, ensure_ascii=False)
-            print(f"Successfully saved {strategy} results to {output_file}")
-        except Exception as e:
-            print(f"ERROR saving {strategy} results: {e}")
+        #try:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(strategy_results, f, indent=2, ensure_ascii=False)
+        print(f"Successfully saved {strategy} results to {output_file}")
+        # except Exception as e:
+        #     print(f"ERROR saving {strategy} results: {e}")
 
-    # Save summary statistics
-    try:
-        with open('trials/ingredient_matching_summary.json', 'w', encoding='utf-8') as f:
-            json.dump(overall_stats, f, indent=2)
-        print(f"Successfully saved summary statistics")
-    except Exception as e:
-        print(f"ERROR saving summary: {e}")
+        # Save summary statistics
+        #try:
+        to_write = json.dumps(overall_stats, indent=2)
+        with open('trials/ingredient_matching_summary.jsonl', 'a', encoding='utf-8') as f:
+            f.write(to_write + '\n')
+        print("Successfully saved summary statistics")
+
+        # except Exception as e:
+        #     print(f"ERROR saving summary: {e}")
 
     # Create comparison report
     create_comparison_report(overall_stats)
 
-    print(f"\nPROCESSING COMPLETE!")
+    print("\nPROCESSING COMPLETE!")
     if overall_stats:
         max_recipes = max(s['total_recipes'] for s in overall_stats.values())
         print(f"Processed {max_recipes} total recipes")
-    print(f"Check output files for detailed results")
+    print("Check output files for detailed results")
 
 
 def create_comparison_report(overall_stats):
     """Create a comparison report of all methods"""
 
-    print(f"\n" + "=" * 80)
+    print("\n" + "=" * 80)
     print("COMPREHENSIVE METHOD COMPARISON REPORT")
     print("=" * 80)
 
@@ -742,7 +807,7 @@ def create_comparison_report(overall_stats):
               f"{stats['stats']['average_score']:<10.3f}")
 
     # Method usage breakdown
-    print(f"\nMETHOD USAGE BREAKDOWN:")
+    print("\nMETHOD USAGE BREAKDOWN:")
     print("-" * 40)
     for strategy, stats in overall_stats.items():
         print(f"\n{strategy.upper()}:")
@@ -754,7 +819,7 @@ def create_comparison_report(overall_stats):
     best_strategy = max(overall_stats.keys(),
                         key=lambda s: overall_stats[s]['stats']['high_confidence_rate'])
 
-    print(f"\nRECOMMENDATION:")
+    print("\nRECOMMENDATION:")
     print(f"Best performing strategy: {best_strategy.upper()}")
     print(f"- Highest confidence rate: {overall_stats[best_strategy]['stats']['high_confidence_rate']:.1%}")
     print(f"- Average score: {overall_stats[best_strategy]['stats']['average_score']:.3f}")
@@ -763,23 +828,23 @@ def create_comparison_report(overall_stats):
 def process_single_strategy_all_recipes(strategy='adaptive'):
     """Alternative function to process all recipes with just one strategy"""
 
-    foods_db_path = "C://Users//User//Desktop//needle_in_haystack//NeadleInHaystack//archive//FINAL FOOD DATASET//FOOD-DATA-GROUP*.csv"
-    foodb_path = 'foodb_2020_04_07_json/foodb_2020_04_07_json/Food.json'
+    foods_db_path = FINAL_FOOD_DATASET
+    foodb_path = FOOD_JSON
 
     matcher = HybridIngredientMatcher(foods_db_path=foods_db_path, foodb_path=foodb_path)
-    recipe_file_path = '../whats-cooking/train.json/train.json'
+    recipe_file_path = RECIPES
 
     print(f"PROCESSING ALL RECIPES WITH {strategy.upper()} STRATEGY")
     print("=" * 60)
 
     # Load recipes from single JSON file
-    try:
-        with open(recipe_file_path, 'r', encoding='utf-8') as file:
-            recipes_data = json.load(file)
-        print(f"Loaded {len(recipes_data)} recipes from {recipe_file_path}")
-    except Exception as e:
-        print(f"Error loading recipes: {e}")
-        return []
+    #try:
+    with open(recipe_file_path, 'r', encoding='utf-8') as file:
+        recipes_data = json.load(file)
+    print(f"Loaded {len(recipes_data)} recipes from {recipe_file_path}")
+    # except Exception as e:
+    #     print(f"Error loading recipes: {e}")
+    #     return []
 
     all_recipe_results = []
     total_processed = 0
@@ -787,7 +852,7 @@ def process_single_strategy_all_recipes(strategy='adaptive'):
     start_time = time.time()
 
     for recipe in recipes_data:
-        try:
+        #try:
             # Get ingredients list
             ingredients = recipe['ingredients']
 
@@ -813,9 +878,9 @@ def process_single_strategy_all_recipes(strategy='adaptive'):
             if total_processed % 2500 == 0:
                 print(f"  Processed {total_processed} recipes...")
 
-        except Exception as e:
-            print(f"Error processing recipe {total_processed}: {e}")
-            continue
+        # except Exception as e:
+        #     print(f"Error processing recipe {total_processed}: {e}")
+        #     continue
 
     elapsed_time = time.time() - start_time
 
@@ -824,7 +889,7 @@ def process_single_strategy_all_recipes(strategy='adaptive'):
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(all_recipe_results, f, indent=2, ensure_ascii=False)
 
-    print(f"\nCOMPLETED!")
+    print("\nCOMPLETED!")
     print(f"Total recipes processed: {total_processed}")
     print(f"Processing time: {elapsed_time:.2f} seconds")
     print(f"Results saved to: {output_file}")

@@ -6,7 +6,7 @@ from collections import defaultdict
 def load_names():
     # Load data
     foods_data = []
-    with open('foodb_2020_04_07_json/foodb_2020_04_07_json/Food.json', 'r', encoding='utf-8') as f:
+    with open('foodb/Food.json', 'r', encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             if line:

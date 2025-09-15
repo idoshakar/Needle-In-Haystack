@@ -1,9 +1,8 @@
 import torch
 import torch.nn as nn
-import numpy as np
-from matplotlib import pyplot
 import pandas as pd
-from torch.utils.data import TensorDataset, DataLoader
+
+import process_recipe_cuisine
 
 class Cuisine(nn.Module):
     def __init__(self, x_len: int, y_len: int):
@@ -16,8 +15,6 @@ class Cuisine(nn.Module):
 
     def forward(self, x):
            return self.fc(x)
-
-import process_recipe_cuisine
 
 def main():
 # Load a simple JSON file
