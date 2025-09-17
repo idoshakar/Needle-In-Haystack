@@ -87,7 +87,6 @@ pyrightconfig.json
 recipe_cuisine.db
 run_single_experiment
 test_testblob.py
-__pycache__/cluster.cpython-313.pyc
 TODO
 prev/cached_google
 prev/cached_google_serp
@@ -106,3 +105,8 @@ cached_fuzzy
 commands.sql
 combine_food_compounds.py
 output.csv
+food_central.db.tmp/
+.vector_cache
+fdc_hdbscan/
+food_central.db
+FoodData_Central_csv_2025-04-24/

@@ -48,10 +48,11 @@ def recommend_recipe(ingredients, experiment_result, n_clusters = 10):
     # Step 4: From that cluster, select recipe with max ingredient overlap
     candidates = [i for i, c in enumerate(clusters) if c == best_cluster]
     best_recipe_idx = max(candidates, key=lambda i: len(ingredients & set(recipes[i])))
-
+    indices = { i for i in candidates
+        if len(ingredients & set(recipes[i])) == len(ingredients & set(recipes[best_recipe_idx])) }
     return {
-        "recipe_index": best_recipe_idx,
-        "recipe": recipes[best_recipe_idx],
+        "recipe_indices": indices,
+        "recipes": [recipes[i] for i in candidates if i in indices],
         "cluster": best_cluster
     }
 
