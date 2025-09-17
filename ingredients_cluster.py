@@ -223,7 +223,7 @@ def write_clusters_to_duckdb(input_db, input_table, id_col, output_db, out_table
 
     # Prepare output DB and table
     con_out = duckdb.connect(output_db)
-    con_out.execute(f"CREATE TABLE IF NOT EXISTS {out_table_clusters} (fdc_id BIGINT, cluster_id INTEGER)")
+    con_out.execute(f"CREATE OR REPLACE TABLE {out_table_clusters} (fdc_id BIGINT, cluster_id INTEGER)")
 
     idx = 0
     batch = []
@@ -258,7 +258,7 @@ def aggregate_nutrients_by_cluster(output_db, clusters_table, input_db, input_ta
     nuts = ", ".join([f"AVG(\"{c}\") as \"avg_{c}\"" for c in nutrient_cols])
 
     con.execute(f'''CREATE OR REPLACE TABLE {out_summary_table} AS
-        SELECT c.cluster_id, max(src.{input_table}.food_name, 5), {nuts} FROM {clusters_table} c
+        SELECT c.cluster_id, max(src.{input_table}.food_name) as food_name, {nuts} FROM {clusters_table} c
             INNER JOIN src.{input_table} ON c.fdc_id = src.{input_table}.{id_col}
     GROUP BY c.cluster_id''')
 
@@ -266,6 +266,22 @@ def aggregate_nutrients_by_cluster(output_db, clusters_table, input_db, input_ta
     con.close()
     print(f"Aggregate table {out_summary_table} created in {output_db}")
 
+def final_table(output_db, clusters_table, input_db, input_table, id_col, nutrient_cols, out_summary_table):
+    # We'll attach the input DB inside an output DuckDB connection and run SQL to aggregate
+    con = duckdb.connect(output_db)
+    # attach/alias the input DB so we can join
+    con.execute(f"ATTACH DATABASE '{input_db}' AS src")
+    # create summary using SQL join
+
+    nuts = ", ".join([f"\"{c}\" as \"{c}\"" for c in nutrient_cols])
+
+    con.execute(f'''CREATE OR REPLACE TABLE {out_summary_table} AS
+        SELECT c.cluster_id as cluster_id, c.fdc_id as fdc_id, food_name, {nuts} FROM {clusters_table} c
+            INNER JOIN src.{input_table} ON c.fdc_id = src.{input_table}.{id_col} ORDER BY cluster_id ASC''')
+
+    con.execute(f"COPY {out_summary_table} TO '{out_summary_table}.csv' (HEADER, DELIMITER ',');")
+    con.close()
+    print(f"Aggregate table {out_summary_table} created in {output_db}")
 
 def main():
     args = get_args()
@@ -292,46 +308,50 @@ def main():
 
     feat_path = os.path.join(str(work_dir), "features.npy")
 
-    mems = prepare_memmaps(total, embed_dim, n_nutrients, str(work_dir))
+    labels_path = os.path.join(str(work_dir), "labels.npy")
+
+    #mems = prepare_memmaps(total, embed_dim, n_nutrients, str(work_dir))
 
     # 1) Stream rows and fill raw embeddings + nutrient memmaps
-    write_rows_to_memmaps(con, args.input_table, "fdc_id", "food_name", list(nutrients['nutrient_name']),
-                          mems["embeddings"], mems["nutrients"],
-                          args.batch_size)
+    # write_rows_to_memmaps(con, args.input_table, "fdc_id", "food_name", list(nutrients['nutrient_name']),
+    #                       mems["embeddings"], mems["nutrients"],
+    #                       args.batch_size)
 
-    con.close()
+    # con.close()
 
     # 2) Run incremental PCA to reduce embedding dimension
-    reduced_path, _ = run_incremental_pca_on_memmap(mems["emb_path"], total, embed_dim, args.pca_components)
+    #reduced_path, _ = run_incremental_pca_on_memmap(mems["emb_path"], total, embed_dim, args.pca_components)
 
     # 3) Scale nutrients
-    scaled_nut_path = scale_nutrients_memmap(mems["nut_path"], total, n_nutrients)
+    #scaled_nut_path = scale_nutrients_memmap(mems["nut_path"], total, n_nutrients)
 
     # 4) Concatenate reduced embeddings + scaled nutrients into feature memmap
 
-    feat_mem = np.lib.format.open_memmap(feat_path, mode="w+", dtype="float32", shape=(total, reduced_dim + n_nutrients))
-    emb_red_mem = np.lib.format.open_memmap(reduced_path, mode="r", dtype="float32", shape=(total, reduced_dim))
-    scaled_nut_mem = np.lib.format.open_memmap(scaled_nut_path, mode="r", dtype="float32", shape=(total, n_nutrients))
-    for i in range(0, total, 16384):
-        end = min(total, i + 16384)
-        feat_mem[i:end, :reduced_dim] = emb_red_mem[i:end]
-        feat_mem[i:end, reduced_dim:] = scaled_nut_mem[i:end]
-        print(f"Wrote features rows {i}..{end}")
+    # feat_mem = np.lib.format.open_memmap(feat_path, mode="w+", dtype="float32", shape=(total, reduced_dim + n_nutrients))
+    # emb_red_mem = np.lib.format.open_memmap(reduced_path, mode="r", dtype="float32", shape=(total, reduced_dim))
+    # scaled_nut_mem = np.lib.format.open_memmap(scaled_nut_path, mode="r", dtype="float32", shape=(total, n_nutrients))
+    # for i in range(0, total, 16384):
+    #     end = min(total, i + 16384)
+    #     feat_mem[i:end, :reduced_dim] = emb_red_mem[i:end]
+    #     feat_mem[i:end, reduced_dim:] = scaled_nut_mem[i:end]
+    #     print(f"Wrote features rows {i}..{end}")
 
-    # 5) Run HDBSCAN on the feature memmap
-    labels = run_clustering(args, feat_path, total, reduced_dim + n_nutrients, min_cluster_size=args.min_cluster_size, min_samples=args.min_samples)
+    # 5) Run Birch scan on the feature memmap
+    #labels = run_clustering(args, feat_path, total, reduced_dim + n_nutrients, min_cluster_size=args.min_cluster_size, min_samples=args.min_samples)
 
     # 6) Save labels into memmap (labels memmap was created in prepare_memmaps)
-    labels_path = os.path.join(str(work_dir), "labels.npy")
-    np.save(labels_path, labels)
+
+    #np.save(labels_path, labels)
 
     # 7) Write cluster -> fdc_id mapping to output DB
     write_clusters_to_duckdb(args.input_db, args.input_table, "fdc_id", args.output_db, "clusters", labels_path)
 
     # 8) Aggregate nutrients by cluster into output DB
-    aggregate_nutrients_by_cluster(args.output_db, "clusters", args.input_db, args.input_table,
-        "fdc_id", nutrients['nutrient_name'], "cluster_nutrient_summary")
+    #aggregate_nutrients_by_cluster(args.output_db, "clusters", args.input_db, args.input_table,
+        #"fdc_id", nutrients['nutrient_name'], "cluster_nutrient_summary")
 
+    #final_table(args.output_db, "clusters", args.input_db, args.input_table,
+    #    "fdc_id", nutrients['nutrient_name'], "output_table")
     print("Done. Output DB contains tables: clusters, cluster_nutrient_summary")
     print(f"Work files retained in {work_dir} (delete when not needed)")
 
