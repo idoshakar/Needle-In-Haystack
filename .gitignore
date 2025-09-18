@@ -110,3 +110,6 @@ food_central.db.tmp/
 fdc_hdbscan/
 food_central.db
 FoodData_Central_csv_2025-04-24/
+output_table*.csv
+cluster_nutrient_summary*.csv
+foods*.db*
