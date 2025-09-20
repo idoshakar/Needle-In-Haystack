@@ -1,6 +1,11 @@
 import duckdb
 
 def init_database(database: str):
+    '''
+    Initializes the food DuckDB database using the given name.
+
+    database: The name of the database.
+    '''
     con = duckdb.connect(database)
     con.execute('''
         SET preserve_insertion_order=false;
@@ -29,9 +34,9 @@ def init_database(database: str):
     con.close()
 
 def build(database: str):
-    # Connect to a database (in-memory or persistent)
+
     con = duckdb.connect(database)
-    # Execute the SQL commands
+
     nutrient_names_dataframe = con.execute('''
         SET preserve_insertion_order=false;
         SET threads=1;
@@ -46,7 +51,7 @@ def build(database: str):
     SELECT * FROM chosen_nutrients
     ''').df()
 
-    #print(nutrient_names_dataframe)
+
     nutrient_fstr = ''
     for nutrient_name in nutrient_names_dataframe['nutrient_name']:
         nutrient_name = nutrient_name.replace("'", "''")
@@ -65,7 +70,7 @@ def build(database: str):
 
     print(description)
 
-    # Close the connection (if persistent database)
+
     con.close()
 
 if __name__ == '__main__':
