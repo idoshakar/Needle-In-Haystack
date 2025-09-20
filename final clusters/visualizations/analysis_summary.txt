@@ -1,0 +1,31 @@
+Cluster-Cuisine Analysis Summary
+========================================
+
+Total Recipes: 26754
+Total Clusters: 73
+Total Cuisines: 20
+Average Cluster Size: 2279.1
+
+Cluster Purity Statistics:
+  Mean Purity: 0.367
+  Median Purity: 0.352
+  High Purity Clusters (>0.5): 13
+  Low Purity Clusters (<0.3): 24
+
+Top 10 Cuisines by Recipe Count:
+  italian: 5327 recipes
+  mexican: 4417 recipes
+  southern_us: 3118 recipes
+  indian: 1868 recipes
+  french: 1860 recipes
+  chinese: 1359 recipes
+  thai: 1204 recipes
+  japanese: 1116 recipes
+  cajun_creole: 949 recipes
+  greek: 801 recipes
+
+Cluster Size Statistics:
+  Mean: 366.5
+  Median: 188.0
+  Largest cluster: 6844 recipes
+  Smallest cluster: 13 recipes
