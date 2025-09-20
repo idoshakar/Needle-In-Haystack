@@ -107,7 +107,7 @@ class EnhancedOptimizedClusteredMatcher:
             # Load data with optimizations
             self.con.execute(f'''
                 CREATE TABLE ingredients AS
-                    SELECT cluster_id, fdc_id, food_name, 
+                    SELECT cluster_id, fdc_id, food_name,
                            LOWER(food_name) as food_name_lower  -- Pre-compute lowercase
                         FROM read_json_auto('{self.clustered_ingredients_path}');
             ''')
@@ -234,8 +234,9 @@ class EnhancedOptimizedClusteredMatcher:
             # Try exact match first (fastest)
             exact_result = self.con.execute(f'''
                 SELECT cluster_id, food_name, 1.0 as score
-                FROM ingredients 
+                FROM ingredients
                 WHERE food_name_lower = '{cleaned.replace("'", "''")}'
+                ORDER BY cluster_id ASC
                 LIMIT 1
             ''').fetchone()
 
@@ -258,7 +259,7 @@ class EnhancedOptimizedClusteredMatcher:
                     FROM ingredients
                 ) sq
                 WHERE score IS NOT NULL AND score > 0
-                ORDER BY score DESC
+                ORDER BY score DESC, cluster_id ASC
                 LIMIT 5
             ''').fetchall()
 
@@ -277,7 +278,7 @@ class EnhancedOptimizedClusteredMatcher:
                         FROM ingredients
                     ) sq
                     WHERE score IS NOT NULL AND score > 0
-                    ORDER BY score DESC
+                    ORDER BY score DESC, cluster_id ASC
                     LIMIT 5
                 ''').fetchall()
                 if fuzzy_results:
