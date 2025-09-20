@@ -1,355 +1,474 @@
 import json
+import numpy as np
 from itertools import combinations
-from collections import defaultdict
+from collections import defaultdict, Counter
+import time
 
 
-def load_names():
-    # Load data
-    foods_data = []
-    with open('foodb/Food.json', 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                try:
-                    food_item = json.loads(line)
-                    foods_data.append(food_item)
-                except json.JSONDecodeError as e:
-                    print(f"Error parsing line: {line[:100]}... Error: {e}")
+class FinalOptimizedApriori:
+    def __init__(self, recipes_path, support_threshold=30, max_itemset_size=5, use_multiset=True):
+        self.recipes_path = recipes_path
+        self.support_threshold = support_threshold
+        self.max_itemset_size = max_itemset_size
+        self.use_multiset = use_multiset
 
-    names = [food['name'].lower() for food in foods_data]
-    return names
+        # Performance optimizations
+        self.item_to_id = {}
+        self.id_to_item = {}
+        self.recipe_vectors = []
+        self.frequent_items_set = set()
+
+    def load_and_preprocess(self):
+        """Load data with aggressive preprocessing for speed"""
+        print("Loading and preprocessing data...")
+        start_time = time.time()
+
+        with open(self.recipes_path, 'r', encoding='utf-8') as f:
+            raw_data = json.load(f)
+
+        # Get all unique ingredients and create ID mappings
+        all_ingredients = set()
+        for recipe in raw_data:
+            ingredients = [str(item).strip().lower() for item in recipe.get('matched_ingredients', [])]
+            all_ingredients.update(ingredients)
+
+        # Create item-to-ID mappings for faster operations
+        sorted_ingredients = sorted(all_ingredients)
+        self.item_to_id = {item: idx for idx, item in enumerate(sorted_ingredients)}
+        self.id_to_item = {idx: item for item, idx in self.item_to_id.items()}
+
+        # Convert recipes to optimized format
+        if self.use_multiset:
+            # Store as Counter objects for multiset operations
+            self.recipe_vectors = []
+            for recipe in raw_data:
+                ingredients = [str(item).strip().lower() for item in recipe.get('matched_ingredients', [])]
+                ingredient_ids = [self.item_to_id[ing] for ing in ingredients if ing in self.item_to_id]
+                if ingredient_ids:
+                    self.recipe_vectors.append(Counter(ingredient_ids))
+        else:
+            # Store as sets for faster set operations
+            self.recipe_vectors = []
+            for recipe in raw_data:
+                ingredients = [str(item).strip().lower() for item in recipe.get('matched_ingredients', [])]
+                ingredient_ids = {self.item_to_id[ing] for ing in ingredients if ing in self.item_to_id}
+                if ingredient_ids:
+                    self.recipe_vectors.append(ingredient_ids)
+
+        print(f"Loaded {len(self.recipe_vectors)} recipes with {len(all_ingredients)} unique ingredients")
+        print(f"Preprocessing took {time.time() - start_time:.2f} seconds")
+
+    def frequent_1_itemsets_fast(self):
+        """Ultra-fast frequent 1-itemsets using vectorized counting"""
+        print(f"\nPass 1: Finding frequent 1-itemsets...")
+        start_time = time.time()
+
+        # Count using optimized approach
+        if self.use_multiset:
+            # Count total occurrences across all recipes
+            item_counts = defaultdict(int)
+            for recipe_counter in self.recipe_vectors:
+                for item_id, count in recipe_counter.items():
+                    item_counts[item_id] += count
+        else:
+            # Count recipe occurrences
+            item_counts = defaultdict(int)
+            for recipe_set in self.recipe_vectors:
+                for item_id in recipe_set:
+                    item_counts[item_id] += 1
+
+        # Filter by support threshold and build results
+        frequent_1 = {}
+        frequent_item_ids = []
+
+        for item_id, count in item_counts.items():
+            if count >= self.support_threshold:
+                item_name = self.id_to_item[item_id]
+                support_pct = (count / len(self.recipe_vectors)) * 100
+                frequent_1[item_name] = {
+                    'id': item_id,
+                    'count': count,
+                    'support': count / len(self.recipe_vectors),
+                    'support_percentage': f"{support_pct:.2f}%"
+                }
+                frequent_item_ids.append(item_id)
+
+        # Store frequent items for filtering
+        self.frequent_items_set = set(frequent_item_ids)
+
+        print(f"Found {len(frequent_1)} frequent 1-itemsets")
+        print(f"Pass 1 took {time.time() - start_time:.2f} seconds")
+
+        # Show top results
+        sorted_items = sorted(frequent_1.items(), key=lambda x: x[1]['count'], reverse=True)
+        print(f"\nTop 10 most frequent items:")
+        for i, (item, stats) in enumerate(sorted_items[:10], 1):
+            print(f"{i:2d}. {item:25s} - Count: {stats['count']:4d} ({stats['support_percentage']})")
+
+        return frequent_1, frequent_item_ids
+
+    def frequent_2_itemsets_ultra_fast(self, frequent_1_ids):
+        """Ultra-optimized 2-itemsets using recipe-driven approach"""
+        print(f"\nPass 2: Finding frequent 2-itemsets (optimized)...")
+        start_time = time.time()
+
+        # CRITICAL OPTIMIZATION: Use recipe-driven counting instead of candidate generation
+        # This avoids the 385K candidate problem entirely
+
+        frequent_set = set(frequent_1_ids)
+        pair_counts = defaultdict(int)
+
+        print(f"Counting pairs from {len(self.recipe_vectors)} recipes...")
+
+        # Recipe-driven approach: only count pairs that actually exist
+        for recipe_idx, recipe in enumerate(self.recipe_vectors):
+            if recipe_idx % 10000 == 0 and recipe_idx > 0:
+                print(f"  Processed {recipe_idx:,} recipes...")
+
+            if self.use_multiset:
+                # For multiset: get items with their counts
+                recipe_items = []
+                for item_id, count in recipe.items():
+                    if item_id in frequent_set:
+                        recipe_items.extend([item_id] * count)
+
+                # Generate all pairs (including self-pairs)
+                for i in range(len(recipe_items)):
+                    for j in range(i + 1, len(recipe_items)):
+                        pair = tuple(sorted([recipe_items[i], recipe_items[j]]))
+                        pair_counts[pair] += 1
+
+                # Add self-pairs for items appearing 2+ times
+                item_counter = Counter(recipe_items)
+                for item_id, count in item_counter.items():
+                    if count >= 2:
+                        # Add C(count, 2) occurrences of self-pair
+                        self_pair_count = count * (count - 1) // 2
+                        pair = (item_id, item_id)
+                        pair_counts[pair] += self_pair_count
+            else:
+                # For standard sets: get frequent items in recipe
+                recipe_items = [item_id for item_id in recipe if item_id in frequent_set]
+
+                # Generate all pairs
+                for i in range(len(recipe_items)):
+                    for j in range(i + 1, len(recipe_items)):
+                        pair = tuple(sorted([recipe_items[i], recipe_items[j]]))
+                        pair_counts[pair] += 1
+
+        print(f"Found {len(pair_counts)} unique pairs")
+
+        # Apply support threshold
+        frequent_2 = {}
+        frequent_2_ids = []
+
+        for pair, count in pair_counts.items():
+            if count >= self.support_threshold:
+                support_pct = (count / len(self.recipe_vectors)) * 100
+
+                # Convert to names and create display
+                item1_name = self.id_to_item[pair[0]]
+                item2_name = self.id_to_item[pair[1]]
+
+                if pair[0] == pair[1]:
+                    # Self-pair
+                    key = f"{item1_name} (×2)"
+                    items_list = [pair[0], pair[0]]
+                else:
+                    # Regular pair
+                    key = f"{item1_name} + {item2_name}"
+                    items_list = list(pair)
+
+                frequent_2[key] = {
+                    'items': [item1_name, item2_name] if pair[0] != pair[1] else [item1_name, item1_name],
+                    'count': count,
+                    'support': count / len(self.recipe_vectors),
+                    'support_percentage': f"{support_pct:.2f}%"
+                }
+                frequent_2_ids.append([item1_name, item2_name] if pair[0] != pair[1] else [item1_name, item1_name])
+
+        print(f"Found {len(frequent_2)} frequent 2-itemsets")
+        print(f"Pass 2 took {time.time() - start_time:.2f} seconds")
+
+        # Show top results
+        if frequent_2:
+            sorted_pairs = sorted(frequent_2.items(), key=lambda x: x[1]['count'], reverse=True)
+            print(f"\nTop 10 most frequent pairs:")
+            for i, (pair_name, stats) in enumerate(sorted_pairs[:10], 1):
+                print(f"{i:2d}. {pair_name:40s} - Count: {stats['count']:4d} ({stats['support_percentage']})")
+
+        return frequent_2, frequent_2_ids
+
+    def frequent_k_itemsets_recipe_driven(self, frequent_k_minus_1_ids, k):
+        """Recipe-driven k-itemsets to avoid candidate explosion"""
+        print(f"\nPass {k}: Finding frequent {k}-itemsets (recipe-driven)...")
+        start_time = time.time()
+
+        # Convert frequent items to a fast lookup set
+        frequent_tuples = set()
+        for itemset in frequent_k_minus_1_ids:
+            # Convert ingredient names back to IDs for internal processing
+            id_itemset = tuple(sorted([self.item_to_id[item_name] for item_name in itemset]))
+            frequent_tuples.add(id_itemset)
+        # Use recipe-driven approach for k-itemsets
+        k_itemset_counts = defaultdict(int)
+
+        print(f"Scanning recipes for {k}-itemsets...")
+
+        for recipe_idx, recipe in enumerate(self.recipe_vectors):
+            if recipe_idx % 10000 == 0 and recipe_idx > 0:
+                print(f"  Processed {recipe_idx:,} recipes...")
+
+            if self.use_multiset:
+                # For multiset: extract items with repetition
+                recipe_items = []
+                for item_id, count in recipe.items():
+                    if item_id in self.frequent_items_set:
+                        # Limit repetition to avoid explosion
+                        recipe_items.extend([item_id] * min(count, k))
+
+                if len(recipe_items) >= k:
+                    # Generate all k-combinations
+                    for combo in combinations(recipe_items, k):
+                        sorted_combo = tuple(sorted(combo))
+
+                        # Check if all (k-1)-subsets are frequent
+                        if self.all_subsets_frequent(sorted_combo, frequent_tuples, k):
+                            k_itemset_counts[sorted_combo] += 1
+            else:
+                # For standard sets
+                recipe_items = [item_id for item_id in recipe if item_id in self.frequent_items_set]
+
+                if len(recipe_items) >= k:
+                    # Generate all k-combinations
+                    for combo in combinations(sorted(recipe_items), k):
+                        # Check if all (k-1)-subsets are frequent
+                        if self.all_subsets_frequent(combo, frequent_tuples, k):
+                            k_itemset_counts[combo] += 1
+
+        print(f"Found {len(k_itemset_counts)} potential {k}-itemsets")
+
+        # Apply support threshold
+        frequent_k = {}
+        frequent_k_ids = []
+
+        for itemset_tuple, count in k_itemset_counts.items():
+            if count >= self.support_threshold:
+                support_pct = (count / len(self.recipe_vectors)) * 100
+
+                # Convert to item names and create display string
+                item_names = [self.id_to_item[item_id] for item_id in itemset_tuple]
+
+                if self.use_multiset:
+                    # Handle multiset display with repetition counts
+                    item_counter = Counter(item_names)
+                    display_parts = []
+                    for item, freq in sorted(item_counter.items()):
+                        if freq == 1:
+                            display_parts.append(item)
+                        else:
+                            display_parts.append(f"{item}(×{freq})")
+                    key = " + ".join(display_parts)
+                else:
+                    key = " + ".join(sorted(set(item_names)))
+
+                frequent_k[key] = {
+                    'items': item_names,  # Use the converted names, not the IDs
+                    'count': count,
+                    'support': count / len(self.recipe_vectors),
+                    'support_percentage': f"{support_pct:.2f}%"
+                }
+                frequent_k_ids.append(item_names)
+
+        print(f"Found {len(frequent_k)} frequent {k}-itemsets")
+        print(f"Pass {k} took {time.time() - start_time:.2f} seconds")
+
+        # Show top results
+        if frequent_k:
+            sorted_itemsets = sorted(frequent_k.items(), key=lambda x: x[1]['count'], reverse=True)
+            display_count = min(5, len(sorted_itemsets))
+            print(f"\nTop {display_count} most frequent {k}-itemsets:")
+            for i, (itemset_name, stats) in enumerate(sorted_itemsets[:display_count], 1):
+                print(f"{i:2d}. {itemset_name:60s} - Count: {stats['count']:4d}")
+
+        return frequent_k, frequent_k_ids
+
+    def all_subsets_frequent(self, itemset, frequent_set, k):
+        """Check if all (k-1)-subsets of itemset are frequent"""
+        # For performance, check a sample of subsets instead of all
+        # This is a probabilistic pruning that trades some accuracy for speed
+        itemset_list = list(itemset)
+
+        # Check first few subsets
+        for i in range(min(3, len(itemset_list))):
+            subset = tuple(sorted(itemset_list[:i] + itemset_list[i + 1:]))
+            if subset not in frequent_set:
+                return False
+
+        return True
+
+    def run_optimized(self):
+        """Run the complete recipe-driven A-priori algorithm"""
+        print("=" * 70)
+        print(f"RECIPE-DRIVEN A-PRIORI ALGORITHM ({'MULTISET' if self.use_multiset else 'STANDARD'})")
+        print("=" * 70)
+        print(f"Support threshold: {self.support_threshold}")
+        print(f"Max itemset size: {self.max_itemset_size}")
+        print(f"Multiset support: {'Enabled' if self.use_multiset else 'Disabled'}")
+
+        total_start = time.time()
+
+        # Step 1: Load and preprocess
+        self.load_and_preprocess()
+
+        # Step 2: Find frequent 1-itemsets
+        frequent_1, frequent_1_ids = self.frequent_1_itemsets_fast()
+        all_results = {'frequent_1_itemsets': frequent_1}
+        all_frequent_counts = {1: len(frequent_1)}
+
+        if self.max_itemset_size == 1:
+            self._save_and_summarize(all_results, all_frequent_counts, total_start)
+            return all_results
+
+        # Step 3: Find frequent 2-itemsets (ultra-optimized)
+        frequent_2, frequent_2_ids = self.frequent_2_itemsets_ultra_fast(frequent_1_ids)
+        all_results['frequent_2_itemsets'] = frequent_2
+        all_frequent_counts[2] = len(frequent_2)
+
+        if self.max_itemset_size == 2:
+            self._save_and_summarize(all_results, all_frequent_counts, total_start)
+            return all_results
+
+        # Step 4: Find frequent k-itemsets (k >= 3) using recipe-driven approach
+        current_frequent_ids = frequent_2_ids
+
+        for k in range(3, self.max_itemset_size + 1):
+            if not current_frequent_ids:
+                print(f"\nNo frequent {k - 1}-itemsets found. Terminating.")
+                break
+
+            # Use recipe-driven approach for all k >= 3
+            frequent_k, frequent_k_ids = self.frequent_k_itemsets_recipe_driven(current_frequent_ids, k)
+
+            if not frequent_k:
+                print(f"\nAlgorithm terminates at k={k - 1} (no more frequent itemsets)")
+                break
+
+            all_results[f'frequent_{k}_itemsets'] = frequent_k
+            all_frequent_counts[k] = len(frequent_k)
+            current_frequent_ids = frequent_k_ids
+
+        self._save_and_summarize(all_results, all_frequent_counts, total_start)
+        return all_results
+
+    def _save_and_summarize(self, all_results, all_frequent_counts, total_start):
+        """Save results and print summary"""
+        import os
+
+        total_time = time.time() - total_start
+
+        # Create output directory
+        output_dir = "frequent_db_itemsets"
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Save each k-itemset in separate files
+        saved_files = []
+        for k in sorted(all_frequent_counts.keys()):
+            itemset_key = f'frequent_{k}_itemsets'
+            if itemset_key in all_results:
+                # Clean the data to only include the required format
+                clean_data = {}
+                for display_name, stats in all_results[itemset_key].items():
+
+                    # Handle different data structures for k=1 vs k>=2
+                    if k == 1:
+                        # For 1-itemsets, create items list from the display_name (which is the item itself)
+                        items_as_strings = [str(display_name)]
+                    else:
+                        # For k>=2 itemsets, items are already ingredient names (strings)
+                        items_as_strings = [str(item) for item in stats['items']]
+
+                    clean_data[display_name] = {
+                        "items": items_as_strings,
+                        "count": stats['count'],
+                        "support": stats['support'],
+                        "support_percentage": stats['support_percentage']
+                    }
+
+                # Save to separate file
+                suffix = "_multiset" if self.use_multiset else "_standard"
+                filename = f'{output_dir}/frequent_{k}_itemsets{suffix}.json'
+
+                with open(filename, 'w', encoding='utf-8') as f:
+                    json.dump(clean_data, f, ensure_ascii=False, indent=4)
+
+                saved_files.append(filename)
+                print(f"Saved {len(clean_data)} frequent {k}-itemsets to '{filename}'")
+
+        # Also save a summary file with metadata
+        summary_filename = f'{output_dir}/summary{"_multiset" if self.use_multiset else "_standard"}.json'
+        summary_data = {
+            'metadata': {
+                'algorithm': 'Recipe-Driven A-priori with Multiset Support',
+                'support_threshold': self.support_threshold,
+                'max_itemset_size': self.max_itemset_size,
+                'use_multiset': self.use_multiset,
+                'total_recipes': len(self.recipe_vectors),
+                'total_runtime_seconds': total_time,
+                'itemset_counts': all_frequent_counts
+            },
+            'files_generated': saved_files
+        }
+
+        with open(summary_filename, 'w', encoding='utf-8') as f:
+            json.dump(summary_data, f, ensure_ascii=False, indent=4)
+
+        # Print final summary
+        print(f"\n{'=' * 70}")
+        print("PERFORMANCE SUMMARY")
+        print(f"{'=' * 70}")
+        print(f"Total runtime: {total_time:.2f} seconds")
+        print(f"Algorithm type: {'Multiset' if self.use_multiset else 'Standard'}")
+        print(f"Total frequent itemsets: {sum(all_frequent_counts.values())}")
+        print(f"\nBreakdown by size:")
+        for size in sorted(all_frequent_counts.keys()):
+            count = all_frequent_counts[size]
+            print(f"  {size}-itemsets: {count:,}")
+        print(f"\nResults saved in '{output_dir}/' directory:")
+        for filename in saved_files:
+            print(f"  - {filename}")
+        print(f"  - {summary_filename}")
 
 
-def load_recipes():
-    with open('ingredient_matching_best_of_both_results.json', 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    return data
-
-
-def frequent_ONE_itemsets(names, data, SUPPORT_THRESHOLD=100):
-    # CORRECTED IMPLEMENTATION
-    # Step 1: Count support for each individual item (Pass 1 of A-priori)
-    item_counts = {}
-    total_baskets = len(data)
-
-    print(f"Total number of baskets (recipes): {total_baskets}")
-
-    # Count each item's frequency
-    for food in names:
-        count = 0
-        for recipe in data:
-            if food in recipe['matched_ingredients']:
-                count += 1
-        item_counts[food] = count
-
-    frequent_1_itemsets = {}
-    for food, count in item_counts.items():
-        if count >= SUPPORT_THRESHOLD:
-            support_percentage = (count / total_baskets) * 100
-            frequent_1_itemsets[food] = {
-                'count': count,
-                'support': count / total_baskets,
-                'support_percentage': f"{support_percentage:.2f}%"
-            }
-
-    print(f"\nFound {len(frequent_1_itemsets)} frequent 1-itemsets out of {len(names)} total items")
-    print(f"Support threshold: {SUPPORT_THRESHOLD} baskets")
-
-    # Display top 10 most frequent items
-    sorted_frequent = sorted(frequent_1_itemsets.items(),
-                             key=lambda x: x[1]['count'],
-                             reverse=True)
-
-    print(f"\nTop 10 most frequent items:")
-    for i, (food, stats) in enumerate(sorted_frequent[:10], 1):
-        print(f"{i:2d}. {food:20s} - Count: {stats['count']:4d}, Support: {stats['support_percentage']}")
-
-    # Save results
-    with open('frequent_itemsets_whats-cooking/frequent_1_itemsets.json', 'w', encoding='utf-8') as f:
-        json.dump(frequent_1_itemsets, f, ensure_ascii=False, indent=4)
-
-    print(f"\nSaved frequent 1-itemsets to 'frequent_1_itemsets_corrected.json'")
-
-    # Additional statistics
-    if frequent_1_itemsets:
-        max_support = max(item['count'] for item in frequent_1_itemsets.values())
-        min_support = min(item['count'] for item in frequent_1_itemsets.values())
-        avg_support = sum(item['count'] for item in frequent_1_itemsets.values()) / len(frequent_1_itemsets)
-
-        print(f"\nFrequent itemsets statistics:")
-        print(f"  Maximum support: {max_support}")
-        print(f"  Minimum support: {min_support}")
-        print(f"  Average support: {avg_support:.1f}")
-
-    return list(frequent_1_itemsets.keys())  # Return L1 for next steps
-
-
-def load_frequent_ONE():
-    # Load your frequent 1-itemsets
-    with open('frequent_itemsets_whats-cooking/frequent_1_itemsets.json', 'r', encoding='utf-8') as f:
-        frequent_1_itemsets = json.load(f)
-    return frequent_1_itemsets
-
-
-def frequent_TWO_itemsets(data, SUPPORT_THRESHOLD=100):
-    frequent_1_itemsets = load_frequent_ONE()
-
-    # Extract just the list of frequent items (L1)
-    L1 = list(frequent_1_itemsets.keys())
-    print(f"Number of frequent 1-itemsets: {len(L1)}")
-
-    # PASS 2: Generate C2 (candidate 2-itemsets) from L1
-    print("Generating candidate 2-itemsets...")
-    C2 = list(combinations(L1, 2))  # All pairs of frequent 1-itemsets
-    print(f"Number of candidate 2-itemsets: {len(C2)}")
-
-    # Count support for each candidate pair
-    print("Counting support for candidate pairs...")
-    pair_counts = defaultdict(int)
-    total_baskets = len(data)
-
-    # For each recipe (basket)
-    for recipe_idx, recipe in enumerate(data):
-        if recipe_idx % 5000 == 0:
-            print(f"Processed {recipe_idx}/{total_baskets} recipes...")
-
-        recipe_ingredients = set(recipe['matched_ingredients'])
-
-        # Check each candidate pair
-        for item1, item2 in C2:
-            if item1 in recipe_ingredients and item2 in recipe_ingredients:
-                # Store pair in sorted order for consistency
-                pair = tuple(sorted([item1, item2]))
-                pair_counts[pair] += 1
-
-    print(f"Finished counting. Found {len(pair_counts)} pairs with non-zero support.")
-
-    # Apply support threshold to get L2 (frequent 2-itemsets)
-    frequent_2_itemsets = {}
-    L2_list = []  # List format for next iteration
-
-    for pair, count in pair_counts.items():
-        if count >= SUPPORT_THRESHOLD:
-            support_percentage = (count / total_baskets) * 100
-            frequent_2_itemsets[f"{pair[0]} + {pair[1]}"] = {
-                'items': list(pair),
-                'count': count,
-                'support': count / total_baskets,
-                'support_percentage': f"{support_percentage:.2f}%"
-            }
-            L2_list.append(list(pair))  # Store as list for candidate generation
-
-    print(f"\nFound {len(frequent_2_itemsets)} frequent 2-itemsets")
-    print(f"Support threshold: {SUPPORT_THRESHOLD} baskets")
-
-    # Display top 20 most frequent pairs
-    sorted_frequent_pairs = sorted(frequent_2_itemsets.items(),
-                                   key=lambda x: x[1]['count'],
-                                   reverse=True)
-
-    print(f"\nTop 10 most frequent item pairs:")
-    for i, (pair_name, stats) in enumerate(sorted_frequent_pairs[:10], 1):
-        items = stats['items']
-        print(
-            f"{i:2d}. {items[0]:15s} + {items[1]:15s} - Count: {stats['count']:4d}, Support: {stats['support_percentage']}")
-
-    # Save results
-    with open('frequent_itemsets_whats-cooking/frequent_2_itemsets.json', 'w', encoding='utf-8') as f:
-        json.dump(frequent_2_itemsets, f, ensure_ascii=False, indent=4)
-
-    print(f"\nSaved frequent 2-itemsets to 'frequent_2_itemsets.json'")
-
-    return L2_list  # Return L2 for next iteration
-
-
-def generate_candidates_k(frequent_k_minus_1, k):
+def run_recipe_driven_apriori(recipes_path, support_threshold=30, max_itemset_size=5, use_multiset=True):
     """
-    Generate candidate k-itemsets from frequent (k-1)-itemsets
-    Using the F(k-1) x F(k-1) method with pruning
+    Run the recipe-driven A-priori algorithm
+
+    Args:
+        recipes_path: Path to recipe JSON file
+        support_threshold: Minimum support count
+        max_itemset_size: Maximum itemset size (1-5)
+        use_multiset: Enable multiset support for duplicate ingredients
     """
-    candidates = []
-    frequent_k_minus_1_sorted = [sorted(itemset) for itemset in frequent_k_minus_1]
+    apriori = FinalOptimizedApriori(
+        recipes_path=recipes_path,
+        support_threshold=support_threshold,
+        max_itemset_size=max_itemset_size,
+        use_multiset=use_multiset
+    )
 
-    print(f"  Generating candidate {k}-itemsets from {len(frequent_k_minus_1)} frequent {k - 1}-itemsets...")
-
-    for i in range(len(frequent_k_minus_1_sorted)):
-        for j in range(i + 1, len(frequent_k_minus_1_sorted)):
-            itemset1 = frequent_k_minus_1_sorted[i]
-            itemset2 = frequent_k_minus_1_sorted[j]
-
-            # Join condition: first k-2 items must be identical
-            if itemset1[:-1] == itemset2[:-1]:
-                candidate = sorted(itemset1 + [itemset2[-1]])
-
-                # Prune: all (k-1)-subsets must be frequent
-                if is_valid_candidate(candidate, frequent_k_minus_1_sorted, k):
-                    candidates.append(candidate)
-
-    return candidates
+    return apriori.run_optimized()
 
 
-def is_valid_candidate(candidate, frequent_k_minus_1, k):
-    """
-    Check if all (k-1)-subsets of candidate are frequent
-    This implements the pruning step of A-priori
-    """
-    for i in range(len(candidate)):
-        subset = candidate[:i] + candidate[i + 1:]  # Remove item at index i
-        if subset not in frequent_k_minus_1:
-            return False
-    return True
+if __name__ == "__main__":
+    # Run recipe-driven version that should handle k>=3 properly
+    print("Running recipe-driven A-priori with multiset support...")
+    results = run_recipe_driven_apriori(
+        recipes_path='recipes_database_only_results.json',
+        support_threshold=30,
+        max_itemset_size=5,
+        use_multiset=True
+    )
 
-
-def count_support_k(candidates, data, k):
-    """Count support for candidate k-itemsets"""
-    candidate_counts = defaultdict(int)
-    total_baskets = len(data)
-
-    print(f"  Counting support for {len(candidates)} candidate {k}-itemsets...")
-
-    for recipe_idx, recipe in enumerate(data):
-        if recipe_idx % 5000 == 0 and recipe_idx > 0:
-            print(f"    Processed {recipe_idx}/{total_baskets} recipes...")
-
-        recipe_ingredients = set(recipe['matched_ingredients'])
-
-        for candidate in candidates:
-            if all(item in recipe_ingredients for item in candidate):
-                candidate_tuple = tuple(sorted(candidate))
-                candidate_counts[candidate_tuple] += 1
-
-    return candidate_counts
-
-
-def frequent_K_itemsets(data, frequent_k_minus_1, k, SUPPORT_THRESHOLD=100):
-    """
-    Generic function to find frequent k-itemsets
-    """
-    print(f"\n{'=' * 50}")
-    print(f"PASS {k}: Finding frequent {k}-itemsets")
-    print(f"{'=' * 50}")
-
-    # Generate candidates
-    candidates = generate_candidates_k(frequent_k_minus_1, k)
-    print(f"  Generated {len(candidates)} candidate {k}-itemsets")
-
-    if not candidates:
-        print(f"  No candidates generated. Algorithm terminates.")
-        return []
-
-    # Count support
-    candidate_counts = count_support_k(candidates, data, k)
-
-    # Filter by support threshold
-    frequent_k_itemsets = {}
-    Lk_list = []  # List format for next iteration
-    total_baskets = len(data)
-
-    for itemset, count in candidate_counts.items():
-        if count >= SUPPORT_THRESHOLD:
-            support_percentage = (count / total_baskets) * 100
-            key = " + ".join(itemset)
-            frequent_k_itemsets[key] = {
-                'items': list(itemset),
-                'count': count,
-                'support': count / total_baskets,
-                'support_percentage': f"{support_percentage:.2f}%"
-            }
-            Lk_list.append(list(itemset))
-
-    print(f"\nFound {len(frequent_k_itemsets)} frequent {k}-itemsets")
-
-    if frequent_k_itemsets:
-        # Display top results
-        sorted_frequent = sorted(frequent_k_itemsets.items(),
-                                 key=lambda x: x[1]['count'],
-                                 reverse=True)
-
-        display_count = min(10, len(sorted_frequent))
-        print(f"\nTop {display_count} most frequent {k}-itemsets:")
-        for i, (itemset_name, stats) in enumerate(sorted_frequent[:display_count], 1):
-            items_str = " + ".join(stats['items'])
-            print(f"{i:2d}. {items_str:50s} - Count: {stats['count']:4d}, Support: {stats['support_percentage']}")
-
-        # Save results
-        filename = f'frequent_itemsets_whats-cooking/frequent_{k}_itemsets.json'
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(frequent_k_itemsets, f, ensure_ascii=False, indent=4)
-        print(f"\nSaved frequent {k}-itemsets to '{filename}'")
-
-        # Statistics
-        max_support = max(item['count'] for item in frequent_k_itemsets.values())
-        min_support = min(item['count'] for item in frequent_k_itemsets.values())
-        avg_support = sum(item['count'] for item in frequent_k_itemsets.values()) / len(frequent_k_itemsets)
-
-        print(f"\nFrequent {k}-itemsets statistics:")
-        print(f"  Maximum support: {max_support}")
-        print(f"  Minimum support: {min_support}")
-        print(f"  Average support: {avg_support:.1f}")
-
-    return Lk_list
-
-
-def complete_apriori_algorithm(names, recipes, SUPPORT_THRESHOLD=100):
-    """
-    Complete A-priori algorithm that finds all frequent itemsets
-    """
-    print("=" * 60)
-    print("COMPLETE A-PRIORI ALGORITHM")
-    print("=" * 60)
-    print(f"Dataset: {len(recipes):,} recipes")
-    print(f"Support threshold: {SUPPORT_THRESHOLD}")
-    print()
-
-    # Step 1: Find frequent 1-itemsets
-    print("PASS 1: Finding frequent 1-itemsets")
-    print("-" * 40)
-    L1 = frequent_ONE_itemsets(names, recipes, SUPPORT_THRESHOLD)
-    current_frequent = [[item] for item in L1]  # Convert to list of lists
-
-    # Step 2: Find frequent 2-itemsets
-    print("\n" + "=" * 50)
-    print("PASS 2: Finding frequent 2-itemsets")
-    print("=" * 50)
-    L2 = frequent_TWO_itemsets(recipes, SUPPORT_THRESHOLD)
-    current_frequent = L2
-
-    # Step 3+: Find frequent k-itemsets (k >= 3)
-    k = 3
-    all_frequent_counts = {1: len(L1), 2: len(L2)}
-
-    while current_frequent:
-        Lk = frequent_K_itemsets(recipes, current_frequent, k, SUPPORT_THRESHOLD)
-
-        if not Lk:  # No more frequent itemsets found
-            print(f"\nAlgorithm terminates at k={k - 1}")
-            break
-
-        all_frequent_counts[k] = len(Lk)
-        current_frequent = Lk
-        k += 1
-
-        # Safety check to avoid infinite loops with very low thresholds
-        if k > 10:
-            print(f"\nStopping at k={k - 1} to avoid excessive computation")
-            break
-
-    # Final summary
-    print("\n" + "=" * 60)
-    print("ALGORITHM SUMMARY")
-    print("=" * 60)
-    total_frequent = sum(all_frequent_counts.values())
-    print(f"Total frequent itemsets found: {total_frequent}")
-    print("\nBreakdown by size:")
-    for size, count in all_frequent_counts.items():
-        print(f"  {size}-itemsets: {count:,}")
-
-    print(f"\nAll results saved in 'frequent_itemsets_whats-cooking/' directory")
-
-
-if __name__ == '__main__':
-    names = load_names()
-    recipes = load_recipes()
-
-    # Run complete A-priori algorithm
-    complete_apriori_algorithm(names, recipes, SUPPORT_THRESHOLD=100)
+    print(
+        f"\nCompleted! Found {sum(len(results.get(f'frequent_{k}_itemsets', {})) for k in range(1, 6))} total frequent itemsets.")
