@@ -18,7 +18,6 @@ class FinalOptimizedApriori:
         self.frequent_items_set = set()
 
     def load_and_preprocess(self):
-        '''Load data with aggressive preprocessing for speed'''
         print("Loading and preprocessing data...")
         start_time = time.time()
 
@@ -193,7 +192,6 @@ class FinalOptimizedApriori:
                 recipe_items = []
                 for item_id, count in recipe.items():
                     if item_id in self.frequent_items_set:
-                        # Limit repetition to avoid explosion
                         recipe_items.extend([item_id] * min(count, k))
 
                 if len(recipe_items) >= k:
@@ -203,7 +201,6 @@ class FinalOptimizedApriori:
                         if self.all_subsets_frequent(sorted_combo, frequent_tuples, k):
                             k_itemset_counts[sorted_combo] += 1
             else:
-                # For standard sets
                 recipe_items = [item_id for item_id in recipe if item_id in self.frequent_items_set]
 
                 if len(recipe_items) >= k:

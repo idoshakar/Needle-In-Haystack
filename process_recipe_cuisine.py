@@ -101,10 +101,8 @@ def process_recipe_cuisine():
 
     ingredient_case_statements = get_ingredients(con);
 
-    # Extract the cuisine names from the result
     cuisine_case_statements = get_cuisines(con)
 
-    # Construct the full SQL query
     one_hot_sql = rf"""
         CREATE OR REPLACE TABLE processed_recipe_cuisine AS
                 SELECT recipe_id, {ingredient_case_statements}, {cuisine_case_statements}
@@ -117,7 +115,6 @@ def process_recipe_cuisine():
 
     print("\nGenerated SQL Query:\n" + one_hot_sql)
 
-    # --- Step 4: Execute the final one-hot encoding query ---
     result = con.execute(one_hot_sql).df()
 
     print("\nOne-Hot Encoded Result:")
@@ -125,7 +122,6 @@ def process_recipe_cuisine():
 
     con.execute("COPY processed_recipe_cuisine TO 'one_hot_recipes.csv' (HEADER, DELIMITER ',');")
 
-    # Close the connection
     con.close()
 
 if __name__ == '__main__':
