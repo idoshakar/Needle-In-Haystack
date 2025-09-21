@@ -1,0 +1,7 @@
+Cuisine: British
+Total recipes: 804
+Total ingredients: 7806
+Average ingredients per recipe: 9.71
+Recipe length std dev: 4.16
+Most common food group: Baking goods
+Ingredient rarity index: 0.30

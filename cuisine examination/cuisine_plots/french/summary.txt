@@ -1,0 +1,7 @@
+Cuisine: French
+Total recipes: 2646
+Total ingredients: 25978
+Average ingredients per recipe: 9.82
+Recipe length std dev: 4.14
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.23

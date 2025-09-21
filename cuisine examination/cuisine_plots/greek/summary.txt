@@ -1,0 +1,7 @@
+Cuisine: Greek
+Total recipes: 1175
+Total ingredients: 11964
+Average ingredients per recipe: 10.18
+Recipe length std dev: 3.73
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.27

@@ -1,0 +1,7 @@
+Cuisine: Jamaican
+Total recipes: 526
+Total ingredients: 6425
+Average ingredients per recipe: 12.21
+Recipe length std dev: 4.76
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.32

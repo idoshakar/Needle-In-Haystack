@@ -1,0 +1,7 @@
+Cuisine: Indian
+Total recipes: 3003
+Total ingredients: 38156
+Average ingredients per recipe: 12.71
+Recipe length std dev: 5.02
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.25

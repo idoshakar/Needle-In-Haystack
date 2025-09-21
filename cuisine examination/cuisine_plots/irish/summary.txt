@@ -1,0 +1,7 @@
+Cuisine: Irish
+Total recipes: 667
+Total ingredients: 6203
+Average ingredients per recipe: 9.30
+Recipe length std dev: 3.70
+Most common food group: Baking goods
+Ingredient rarity index: 0.30

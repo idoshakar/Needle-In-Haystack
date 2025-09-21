@@ -113,3 +113,5 @@ FoodData_Central_csv_2025-04-24/
 output_table*.csv
 cluster_nutrient_summary*.csv
 foods*.db*
+out.zip
+one_hot_recipes.csv

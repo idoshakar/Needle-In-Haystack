@@ -1,0 +1,7 @@
+Cuisine: Thai
+Total recipes: 1539
+Total ingredients: 19308
+Average ingredients per recipe: 12.55
+Recipe length std dev: 4.41
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.23

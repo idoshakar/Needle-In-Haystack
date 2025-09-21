@@ -4,13 +4,13 @@ from compare import *
 import shelve
 
 def recommend_recipe(ingredients, experiment_result, n_clusters = 10):
-    """
+    '''
     Recommend a recipe given input ingredients.
 
     ingredients: set of ingredients
     experiment_result: output dict from run_single_experiment
     n_clusters: number of clusters used in that experiment
-    """
+    '''
 
     matcher = HybridIngredientMatcher(
         foods_db_path=FINAL_FOOD_DATASET,

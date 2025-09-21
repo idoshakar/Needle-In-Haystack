@@ -1,0 +1,7 @@
+Cuisine: Italian
+Total recipes: 7838
+Total ingredients: 77667
+Average ingredients per recipe: 9.91
+Recipe length std dev: 3.81
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.16

@@ -1,0 +1,7 @@
+Cuisine: Chinese
+Total recipes: 2673
+Total ingredients: 32030
+Average ingredients per recipe: 11.98
+Recipe length std dev: 4.04
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.27

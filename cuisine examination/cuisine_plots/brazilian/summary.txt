@@ -1,0 +1,7 @@
+Cuisine: Brazilian
+Total recipes: 467
+Total ingredients: 4446
+Average ingredients per recipe: 9.52
+Recipe length std dev: 5.55
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.32

@@ -1,0 +1,7 @@
+Cuisine: Spanish
+Total recipes: 989
+Total ingredients: 10309
+Average ingredients per recipe: 10.42
+Recipe length std dev: 4.16
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.27

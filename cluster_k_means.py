@@ -1,21 +1,19 @@
 import numpy as np
 from numba import jit, prange
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from sklearn.metrics import silhouette_score, adjusted_rand_score, normalized_mutual_info_score
+from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 from collections import Counter, defaultdict
 import time
 import json
 import os
 import psutil
-from copy import deepcopy
 
 
 @jit(nopython=True, parallel=True)
 def fast_cosine_silhouette_sample(feature_matrix, labels, sample_size=1000):
-    """Fast cosine-based silhouette computation for large datasets"""
+    '''Fast cosine-based silhouette computation for large datasets'''
     n_samples = feature_matrix.shape[0]
 
-    # Sample for performance if dataset is large
     if n_samples > sample_size:
         indices = np.random.choice(n_samples, sample_size, replace=False)
         sample_features = feature_matrix[indices]
@@ -86,7 +84,6 @@ def fast_cosine_silhouette_sample(feature_matrix, labels, sample_size=1000):
 
         b = min_other_cluster_dist
 
-        # Silhouette score for this point
         if max(a, b) > 0:
             silhouette_scores[i] = (b - a) / max(a, b)
         else:
@@ -96,10 +93,10 @@ def fast_cosine_silhouette_sample(feature_matrix, labels, sample_size=1000):
 
 
 class RecursiveBatchKMeansClustering:
-    """
+    '''
     Recursive batch K-means clustering that adaptively discovers natural groupings
     in recipe data by iteratively splitting heterogeneous clusters
-    """
+    '''
 
     def __init__(self, data_path, cuisine_data_path, output_dir="recursive_kmeans_results", target_clusters=None):
         self.data_path = data_path
@@ -109,13 +106,11 @@ class RecursiveBatchKMeansClustering:
         self.cuisine_labels = None
         self.feature_matrix = None
 
-        # Clustering parameters
-        self.min_cluster_size = 100  # Minimum recipes per cluster
-        self.max_heterogeneity = 0.7  # Maximum allowed heterogeneity (1-purity)
-        self.min_silhouette = 0.1  # Minimum silhouette score to continue splitting
-        self.target_clusters = target_clusters  # Target number of final clusters
+        self.min_cluster_size = 100
+        self.max_heterogeneity = 0.7
+        self.min_silhouette = 0.1
+        self.target_clusters = target_clusters
 
-        # Results storage
         self.cluster_hierarchy = {}
         self.final_clusters = {}
         self.performance_stats = {}
@@ -137,17 +132,14 @@ class RecursiveBatchKMeansClustering:
         print("Loading data and creating feature matrix...")
         start_time = time.time()
 
-        # Load transaction data
         with open(self.data_path, 'r', encoding='utf-8') as f:
             transaction_data = json.load(f)
 
         self.transactions = [recipe['matched_ingredients'] for recipe in transaction_data]
 
-        # Load cuisine data
         with open(self.cuisine_data_path, 'r', encoding='utf-8') as f:
             cuisine_data = json.load(f)
 
-        # Create cuisine labels
         recipe_id_to_cuisine = {recipe['recipe_id']: recipe['cuisine'] for recipe in cuisine_data}
         self.cuisine_labels = []
 
@@ -157,7 +149,6 @@ class RecursiveBatchKMeansClustering:
             else:
                 self.cuisine_labels.append('unknown')
 
-        # Create feature matrix using the best approach from your previous work
         self.feature_matrix = self._create_optimized_feature_matrix()
 
         load_time = time.time() - start_time
@@ -170,7 +161,6 @@ class RecursiveBatchKMeansClustering:
         print("Creating optimized feature matrix...")
         start_time = time.time()
 
-        # Load and combine itemsets using the same enhanced approach
         all_itemsets = []
 
         for size in [2, 3, 5]:
@@ -179,7 +169,6 @@ class RecursiveBatchKMeansClustering:
                 with open(filepath, 'r') as f:
                     frequent_itemsets = json.load(f)
 
-                # Use enhanced discriminative selection
                 selected = self._select_discriminative_itemsets(frequent_itemsets, top_k=166)
                 all_itemsets.extend(selected)
                 print(f"  Size {size}: {len(selected)} itemsets selected")
@@ -188,7 +177,6 @@ class RecursiveBatchKMeansClustering:
                 print(f"  Size {size}: File not found, skipping")
                 continue
 
-        # Remove duplicates with optimized approach
         unique_itemsets = []
         seen_itemsets = set()
         for itemset in all_itemsets:
@@ -199,29 +187,23 @@ class RecursiveBatchKMeansClustering:
 
         print(f"Total unique itemsets: {len(unique_itemsets)}")
 
-        # OPTIMIZED FEATURE MATRIX CREATION (from your hierarchical version)
         n_transactions = len(self.transactions)
         n_itemsets = len(unique_itemsets)
 
-        # Pre-convert to optimized data structures
         transaction_sets = [frozenset(transaction) for transaction in self.transactions]
         itemset_sets = [frozenset(itemset) for itemset in unique_itemsets]
 
-        # Create ingredient to transaction mapping for ultra-fast lookup
         ingredient_to_transactions = defaultdict(set)
         for i, transaction_set in enumerate(transaction_sets):
             for ingredient in transaction_set:
                 ingredient_to_transactions[ingredient].add(i)
 
-        # Initialize feature matrix
         feature_matrix = np.zeros((n_transactions, n_itemsets), dtype=np.float32)
 
-        # Optimized feature matrix creation
         for j, itemset_set in enumerate(itemset_sets):
             if not itemset_set:
                 continue
 
-            # Find transactions containing ALL ingredients in the itemset
             candidate_transactions = None
             for ingredient in itemset_set:
                 if ingredient in ingredient_to_transactions:
@@ -234,7 +216,6 @@ class RecursiveBatchKMeansClustering:
                     candidate_transactions = set()
                     break
 
-            # Set feature matrix values
             if candidate_transactions:
                 for i in candidate_transactions:
                     feature_matrix[i, j] = 1.0
@@ -245,18 +226,16 @@ class RecursiveBatchKMeansClustering:
         return feature_matrix
 
     def _select_discriminative_itemsets(self, frequent_itemsets, top_k=200):
-        """Simplified discriminative itemset selection"""
+        '''Simplified discriminative itemset selection'''
         itemset_scores = []
 
         for itemset_key, itemset_data in frequent_itemsets.items():
             itemset = set(itemset_data['items'])
             support = itemset_data['support']
 
-            # Skip extreme support values
             if support > 0.6 or support < 0.02:
                 continue
 
-            # Calculate cuisine distribution
             cuisine_counts = defaultdict(int)
             total_containing = 0
 
@@ -270,7 +249,6 @@ class RecursiveBatchKMeansClustering:
             if total_containing < 5:
                 continue
 
-            # Calculate entropy-based discrimination
             probabilities = [count / total_containing for count in cuisine_counts.values()]
             entropy = -sum(p * np.log2(p) for p in probabilities if p > 0)
 
@@ -278,7 +256,6 @@ class RecursiveBatchKMeansClustering:
             max_entropy = np.log2(unique_cuisines) if unique_cuisines > 1 else 1
             discrimination_score = 1 - (entropy / max_entropy) if max_entropy > 0 else 0
 
-            # Combined score
             combined_score = discrimination_score * 0.7 + support * 0.3
 
             itemset_scores.append({
@@ -286,7 +263,6 @@ class RecursiveBatchKMeansClustering:
                 'score': combined_score
             })
 
-        # Sort and return top k
         itemset_scores.sort(key=lambda x: x['score'], reverse=True)
         return [item['items'] for item in itemset_scores[:top_k]]
 
@@ -295,17 +271,14 @@ class RecursiveBatchKMeansClustering:
         if len(cluster_indices) < 2:
             return {'heterogeneity': 0, 'silhouette': 0, 'cuisine_purity': 0, 'size': len(recipe_indices)}
 
-        # Cuisine-based heterogeneity (1 - purity) - OPTIMIZED
         cluster_cuisines = [self.cuisine_labels[i] for i in recipe_indices]
         cuisine_counts = Counter(cluster_cuisines)
         most_common_count = cuisine_counts.most_common(1)[0][1] if cuisine_counts else 0
         cuisine_purity = most_common_count / len(cluster_cuisines) if cluster_cuisines else 0
         heterogeneity = 1 - cuisine_purity
 
-        # Fast silhouette score using JIT-compiled function
         try:
-            if len(set(cluster_indices)) > 1:  # Need at least 2 different clusters
-                # Use optimized silhouette computation
+            if len(set(cluster_indices)) > 1:
                 silhouette = fast_cosine_silhouette_sample(
                     self.feature_matrix, cluster_indices, sample_size=min(1000, len(recipe_indices))
                 )
@@ -324,7 +297,7 @@ class RecursiveBatchKMeansClustering:
         }
 
     def optimized_kmeans_split(self, recipe_indices, k_values=[2, 3, 4]):
-        """Optimized K-means splitting with performance monitoring"""
+       '''Optimized K-means splitting with performance monitoring'''
         subset_features = self.feature_matrix[recipe_indices]
 
         best_k = None
@@ -333,18 +306,16 @@ class RecursiveBatchKMeansClustering:
 
         for k in k_values:
             try:
-                # Memory and performance monitoring
                 memory_before = psutil.Process().memory_info().rss / 1024 / 1024
                 start_time = time.time()
 
-                # Use optimized K-means based on cluster size
                 if len(recipe_indices) > 10000:
                     kmeans = MiniBatchKMeans(
                         n_clusters=k,
                         random_state=42,
                         batch_size=min(2000, len(recipe_indices) // 5),
-                        max_iter=100,  # Limit iterations for speed
-                        n_init=3  # Reduce initializations
+                        max_iter=100,
+                        n_init=3
                     )
                 elif len(recipe_indices) > 5000:
                     kmeans = MiniBatchKMeans(
@@ -358,13 +329,12 @@ class RecursiveBatchKMeansClustering:
                     kmeans = KMeans(
                         n_clusters=k,
                         random_state=42,
-                        n_init=5,  # Reduce for speed
+                        n_init=5,
                         max_iter=100
                     )
 
                 labels = kmeans.fit_predict(subset_features)
 
-                # Fast silhouette computation
                 if len(set(labels)) > 1:
                     score = fast_cosine_silhouette_sample(subset_features, labels, sample_size=500)
 
@@ -373,7 +343,6 @@ class RecursiveBatchKMeansClustering:
                         best_k = k
                         best_labels = labels
 
-                # Performance logging
                 elapsed = time.time() - start_time
                 memory_after = psutil.Process().memory_info().rss / 1024 / 1024
                 print(f"    K={k}: score={score:.3f}, time={elapsed:.2f}s, "
@@ -386,16 +355,13 @@ class RecursiveBatchKMeansClustering:
         return best_k, best_score, best_labels
 
     def should_continue_splitting(self, cluster_size, heterogeneity, silhouette, current_cluster_count):
-        """Determine if we should continue splitting based on target clusters and quality"""
+        '''Determine if we should continue splitting based on target clusters and quality'''
 
-        # Always respect minimum cluster size
         if cluster_size < self.min_cluster_size * 2:
             return False
 
-        # If we have a target, use more aggressive splitting when below target
         if self.target_clusters is not None:
             if current_cluster_count < self.target_clusters:
-                # More aggressive splitting - lower thresholds
                 min_silhouette = max(0.05, self.min_silhouette * 0.7)
                 max_heterogeneity = min(0.9, self.max_heterogeneity * 1.3)
 
@@ -403,22 +369,20 @@ class RecursiveBatchKMeansClustering:
                         silhouette > min_silhouette)
 
             elif current_cluster_count >= self.target_clusters:
-                # More conservative - higher thresholds
                 min_silhouette = self.min_silhouette * 1.5
                 max_heterogeneity = self.max_heterogeneity * 0.7
 
                 return (heterogeneity > max_heterogeneity and
                         silhouette > min_silhouette)
 
-        # Default behavior - use original criteria
         return (heterogeneity > self.max_heterogeneity and
                 silhouette > self.min_silhouette)
 
     def recursive_kmeans_split(self, recipe_indices, cluster_id, depth=0, max_depth=5,
                                current_cluster_count=1):
-        """
+        '''
         Recursively split clusters using optimized K-means with target cluster control
-        """
+        '''
         if depth > max_depth:
             print(f"  Max depth {max_depth} reached for cluster {cluster_id}")
             return {cluster_id: recipe_indices}
@@ -429,15 +393,12 @@ class RecursiveBatchKMeansClustering:
 
         print(f"{'  ' * depth}Analyzing cluster {cluster_id} ({len(recipe_indices)} recipes, depth {depth})")
 
-        # OPTIMIZED K-means splitting
         best_k, best_score, best_labels = self.optimized_kmeans_split(recipe_indices)
 
-        # Calculate current cluster metrics for stopping decision
         temp_labels = np.full(len(self.feature_matrix), -1)
         temp_labels[recipe_indices] = 0
         metrics = self.calculate_cluster_metrics(temp_labels, recipe_indices)
 
-        # Use enhanced stopping criteria with target awareness
         should_split = self.should_continue_splitting(
             len(recipe_indices),
             metrics['heterogeneity'],
@@ -454,10 +415,8 @@ class RecursiveBatchKMeansClustering:
 
         print(f"  Splitting cluster {cluster_id} into {best_k} subclusters (silhouette: {best_score:.3f})")
 
-        # Create subclusters and recursively process them - OPTIMIZED
         final_clusters = {}
 
-        # Pre-compute subcluster indices for efficiency
         subcluster_indices_map = defaultdict(list)
         for i, label in enumerate(best_labels):
             subcluster_indices_map[label].append(recipe_indices[i])
@@ -468,7 +427,6 @@ class RecursiveBatchKMeansClustering:
 
             sub_cluster_id = f"{cluster_id}_{sub_k}"
 
-            # Calculate metrics for this subcluster - OPTIMIZED
             temp_labels = np.full(len(self.feature_matrix), -1)
             temp_labels[subcluster_indices] = sub_k
 
@@ -478,10 +436,8 @@ class RecursiveBatchKMeansClustering:
                   f"purity: {metrics['cuisine_purity']:.3f}, "
                   f"dominant: {metrics['dominant_cuisine']}")
 
-            # Update cluster count for next recursive call
             new_cluster_count = current_cluster_count + best_k - 1
 
-            # Recursively split this subcluster
             sub_results = self.recursive_kmeans_split(
                 subcluster_indices, sub_cluster_id, depth + 1, max_depth, new_cluster_count
             )
@@ -490,22 +446,18 @@ class RecursiveBatchKMeansClustering:
         return final_clusters
 
     def run_recursive_clustering(self, initial_k=5, target_clusters=None):
-        """Run the complete recursive K-means clustering with optional target"""
-        print("STARTING RECURSIVE BATCH K-MEANS CLUSTERING")
+        '''Run the complete recursive K-means clustering with optional target'''
         if target_clusters:
             print(f"TARGET: {target_clusters} final clusters")
         print("=" * 60)
 
         start_time = time.time()
 
-        # Update target if specified
         if target_clusters:
             self.target_clusters = target_clusters
 
-        # Load data and create features
         self.load_data_and_features()
 
-        # Initial K-means clustering
         print(f"\nPerforming initial K-means with k={initial_k}")
 
         if self.feature_matrix.shape[0] > 10000:
@@ -518,13 +470,10 @@ class RecursiveBatchKMeansClustering:
 
         print(f"Initial clustering silhouette score: {initial_silhouette:.3f}")
 
-        # Group recipes by initial clusters
         initial_clusters = defaultdict(list)
         for i, label in enumerate(initial_labels):
             initial_clusters[label].append(i)
 
-        # Recursively split each initial cluster
-        print(f"\nRecursively refining {len(initial_clusters)} initial clusters...")
         if target_clusters:
             print(f"Targeting approximately {target_clusters} final clusters...")
 
@@ -539,7 +488,6 @@ class RecursiveBatchKMeansClustering:
             )
             all_final_clusters.update(cluster_results)
 
-            # Early stopping if we've reached target
             if target_clusters and len(all_final_clusters) >= target_clusters:
                 print(f"\nReached target of {target_clusters} clusters, stopping early")
                 break
@@ -553,11 +501,9 @@ class RecursiveBatchKMeansClustering:
         if target_clusters:
             actual_clusters = len(self.final_clusters)
             if actual_clusters < target_clusters * 0.8:
-                print(f"WARNING: Generated {actual_clusters} clusters, significantly below target {target_clusters}")
-                print("Consider lowering min_cluster_size or quality thresholds")
+                print(f"Generated {actual_clusters} clusters, below target {target_clusters}")
             elif actual_clusters > target_clusters * 1.2:
-                print(f"NOTE: Generated {actual_clusters} clusters, above target {target_clusters}")
-                print("This suggests natural cluster structure requires more granularity")
+                print(f"Generated {actual_clusters} clusters, above target {target_clusters}")
 
         # Evaluate results
         self.evaluate_final_clustering()
@@ -568,22 +514,19 @@ class RecursiveBatchKMeansClustering:
         return self.final_clusters
 
     def evaluate_final_clustering(self):
-        """Evaluate the quality of final clustering"""
+        '''Evaluate the quality of final clustering'''
         print("\nEVALUATING FINAL CLUSTERING")
         print("=" * 40)
 
-        # Create final cluster labels
         final_labels = np.full(len(self.cuisine_labels), -1)
 
         cluster_metrics = {}
         total_recipes = 0
 
         for cluster_id, recipe_indices in self.final_clusters.items():
-            # Assign cluster labels
             cluster_num = len(cluster_metrics)
             final_labels[recipe_indices] = cluster_num
 
-            # Calculate metrics
             temp_labels = np.full(len(self.feature_matrix), -1)
             temp_labels[recipe_indices] = cluster_num
 
@@ -591,7 +534,6 @@ class RecursiveBatchKMeansClustering:
             cluster_metrics[cluster_id] = metrics
             total_recipes += len(recipe_indices)
 
-        # Overall metrics
         valid_indices = final_labels != -1
         if np.sum(valid_indices) > 0:
             valid_final_labels = final_labels[valid_indices]
@@ -601,7 +543,6 @@ class RecursiveBatchKMeansClustering:
                                     if i < len(valid_cuisine_labels)]
 
             if len(valid_cuisine_labels) > 0 and len(set(valid_cuisine_labels)) > 1:
-                # Convert cuisines to numeric
                 unique_cuisines = list(set(valid_cuisine_labels))
                 cuisine_to_num = {cuisine: i for i, cuisine in enumerate(unique_cuisines)}
                 numeric_cuisines = [cuisine_to_num[cuisine] for cuisine in valid_cuisine_labels]
@@ -609,7 +550,6 @@ class RecursiveBatchKMeansClustering:
                 ari = adjusted_rand_score(numeric_cuisines, valid_cluster_labels)
                 nmi = normalized_mutual_info_score(numeric_cuisines, valid_cluster_labels)
 
-                # Overall purity
                 overall_purity = np.mean([metrics['cuisine_purity'] for metrics in cluster_metrics.values()])
 
                 print(f"Overall ARI: {ari:.3f}")
@@ -626,7 +566,6 @@ class RecursiveBatchKMeansClustering:
                     'total_recipes': total_recipes
                 }
 
-        # Show cluster breakdown
         print(f"\nCLUSTER BREAKDOWN:")
         sorted_clusters = sorted(cluster_metrics.items(),
                                  key=lambda x: x[1]['size'], reverse=True)
@@ -637,10 +576,9 @@ class RecursiveBatchKMeansClustering:
                   f"dominant: {metrics['dominant_cuisine']}")
 
     def save_results(self):
-        """Save clustering results in multiple formats"""
+        '''Save clustering results in multiple formats'''
         print("\nSaving results...")
 
-        # Save cluster assignments
         cluster_assignments = {}
         for cluster_id, recipe_indices in self.final_clusters.items():
             cluster_assignments[cluster_id] = {
@@ -653,11 +591,9 @@ class RecursiveBatchKMeansClustering:
         with open(os.path.join(self.output_dir, "results", "cluster_assignments.json"), 'w') as f:
             json.dump(cluster_assignments, f, indent=2)
 
-        # Save performance stats
         with open(os.path.join(self.output_dir, "results", "performance_stats.json"), 'w') as f:
             json.dump(self.performance_stats, f, indent=2)
 
-        # Save simple CSV
         import pandas as pd
 
         csv_data = []
@@ -690,38 +626,23 @@ def main_recursive_kmeans(recipes_path,
                           discrimination_weight=0.7,
                           k_values=None,
                           output_dir="recursive_kmeans_results"):
-    """
+    '''
     Enhanced main function for recursive K-means clustering with configurable hyperparameters
 
-    Parameters:
-    -----------
-    recipes_path : str
-        Path to the recipe data JSON file
-    target_clusters : int, optional
-        Target number of final clusters (None for adaptive)
-    min_cluster_size : int, default=100
-        Minimum recipes per cluster before stopping splits
-    max_heterogeneity : float, default=0.7
-        Maximum allowed heterogeneity (1-purity) before stopping splits
-    min_silhouette : float, default=0.1
-        Minimum silhouette score to continue splitting
-    initial_k : int, default=8
-        Number of initial clusters
-    max_depth : int, default=5
-        Maximum recursion depth
-    top_k_itemsets : int, default=166
-        Number of itemsets to select per size (2,3,5)
-    support_min : float, default=0.02
-        Minimum support threshold for itemset selection
-    support_max : float, default=0.6
-        Maximum support threshold for itemset selection
-    discrimination_weight : float, default=0.7
-        Weight for discrimination score vs support in itemset selection
-    k_values : list, optional
-        K values to try for splits (default=[2,3,4])
-    output_dir : str, default="recursive_kmeans_results"
-        Output directory for results
-    """
+    recipes_path: Path to the recipe data JSON file
+    target_clusters: Target number of final clusters (None for adaptive)
+    min_cluster_size: Minimum recipes per cluster before stopping splits
+    max_heterogeneity: Maximum allowed heterogeneity (1-purity) before stopping splits
+    min_silhouette: Minimum silhouette score to continue splitting
+    initial_k : Number of initial clusters
+    max_depth : Maximum recursion depth
+    top_k_itemsets: Number of itemsets to select per size (2,3,5)
+    support_min: Minimum support threshold for itemset selection
+    support_max: Maximum support threshold for itemset selection
+    discrimination_weight: Weight for discrimination score vs support in itemset selection
+    k_values: K values to try for splits (default=[2,3,4])
+    output_dir: Output directory for results
+    '''
 
     if k_values is None:
         k_values = [2, 3, 4]
@@ -772,11 +693,11 @@ def main_recursive_kmeans(recipes_path,
             itemset = set(itemset_data['items'])
             support = itemset_data['support']
 
-            # Skip extreme support values using configurable thresholds
+
             if support > support_max or support < support_min:
                 continue
 
-            # Calculate cuisine distribution
+
             cuisine_counts = defaultdict(int)
             total_containing = 0
 
@@ -790,7 +711,6 @@ def main_recursive_kmeans(recipes_path,
             if total_containing < 5:
                 continue
 
-            # Calculate entropy-based discrimination
             probabilities = [count / total_containing for count in cuisine_counts.values()]
             entropy = -sum(p * np.log2(p) for p in probabilities if p > 0)
 
@@ -798,7 +718,7 @@ def main_recursive_kmeans(recipes_path,
             max_entropy = np.log2(unique_cuisines) if unique_cuisines > 1 else 1
             discrimination_score = 1 - (entropy / max_entropy) if max_entropy > 0 else 0
 
-            # Combined score with configurable weight
+
             support_weight = 1.0 - discrimination_weight
             combined_score = discrimination_score * discrimination_weight + support * support_weight
 
@@ -811,10 +731,10 @@ def main_recursive_kmeans(recipes_path,
         itemset_scores.sort(key=lambda x: x['score'], reverse=True)
         return [item['items'] for item in itemset_scores[:top_k]]
 
-    # Update the _create_optimized_feature_matrix method
+
     def enhanced_create_optimized_feature_matrix(self):
         """Enhanced feature matrix creation with configurable parameters"""
-        print("Creating optimized feature matrix...")
+
         start_time = time.time()
 
         top_k_itemsets = getattr(self, '_top_k_itemsets', 166)
@@ -834,7 +754,7 @@ def main_recursive_kmeans(recipes_path,
                 print(f"  Size {size}: File not found, skipping")
                 continue
 
-        # Remove duplicates
+
         unique_itemsets = []
         seen_itemsets = set()
         for itemset in all_itemsets:
@@ -845,7 +765,6 @@ def main_recursive_kmeans(recipes_path,
 
         print(f"Total unique itemsets: {len(unique_itemsets)}")
 
-        # Create feature matrix (same optimized logic as original)
         n_transactions = len(self.transactions)
         n_itemsets = len(unique_itemsets)
 
@@ -883,7 +802,6 @@ def main_recursive_kmeans(recipes_path,
         print(f"Feature matrix created in {creation_time:.2f}s")
         return feature_matrix
 
-    # Update the optimized_kmeans_split method
     def enhanced_optimized_kmeans_split(self, recipe_indices, k_values=None):
         """Enhanced K-means splitting with configurable k_values and error handling"""
         if k_values is None:
@@ -918,7 +836,6 @@ def main_recursive_kmeans(recipes_path,
 
                 labels = kmeans.fit_predict(subset_features)
 
-                # Check if we actually got k distinct clusters
                 unique_labels = len(set(labels))
                 if unique_labels < 2:
                     print(f"    K={k}: only {unique_labels} distinct cluster(s) found, skipping")
@@ -937,17 +854,16 @@ def main_recursive_kmeans(recipes_path,
                       f"memory_delta={memory_after - memory_before:.1f}MB")
 
             except Exception as e:
-                print(f"    K={k} failed: {e}")
+                print(f"K={k} failed: {e}")
                 continue
 
-        # Handle case where no valid clustering was found
         if best_labels is None:
-            print(f"    No valid clustering found for any k in {k_values}")
+            print(f"No valid clustering found for any k in {k_values}")
             best_k = None
-            best_score = -1.0  # Set a negative score to indicate failure
+            best_score = -1.0
 
         return best_k, best_score, best_labels
-    # Update the recursive_kmeans_split method
+
     def enhanced_recursive_kmeans_split(self, recipe_indices, cluster_id, depth=0, max_depth=None,
                                         current_cluster_count=1):
         """Enhanced recursive splitting with configurable max_depth and error handling"""
@@ -966,7 +882,7 @@ def main_recursive_kmeans(recipes_path,
 
         best_k, best_score, best_labels = self.optimized_kmeans_split(recipe_indices)
 
-        # Handle case where clustering failed
+
         if best_labels is None or best_k is None:
             print(f"  Cluster {cluster_id} cannot be split (clustering failed)")
             return {cluster_id: recipe_indices}
@@ -1013,14 +929,14 @@ def main_recursive_kmeans(recipes_path,
 
         return final_clusters
 
-    # Monkey patch the methods
+
     import types
     analyzer._select_discriminative_itemsets = types.MethodType(enhanced_select_discriminative_itemsets, analyzer)
     analyzer._create_optimized_feature_matrix = types.MethodType(enhanced_create_optimized_feature_matrix, analyzer)
     analyzer.optimized_kmeans_split = types.MethodType(enhanced_optimized_kmeans_split, analyzer)
     analyzer.recursive_kmeans_split = types.MethodType(enhanced_recursive_kmeans_split, analyzer)
 
-    # Run clustering
+
     final_clusters = analyzer.run_recursive_clustering(initial_k=initial_k, target_clusters=target_clusters)
 
     print(f"\nRecursive K-means clustering complete!")
@@ -1031,14 +947,9 @@ def main_recursive_kmeans(recipes_path,
 
     return analyzer, final_clusters
 
-
-
 if __name__ == "__main__":
     recipes_path = "recipes_database_only_results_str.json"
 
-    # Example usage with different hyperparameter configurations:
-
-    # Configuration 1: Fewer, purer clusters
     analyzer, clusters = main_recursive_kmeans(
         recipes_path,
         target_clusters=20,
@@ -1047,41 +958,3 @@ if __name__ == "__main__":
         min_silhouette=0.2,
         output_dir="pure_clusters_20"
     )
-
-    # Configuration 2: More granular clusters
-    # analyzer, clusters = main_recursive_kmeans(
-    #     recipes_path,
-    #     target_clusters=100,
-    #     min_cluster_size=50,
-    #     max_heterogeneity=0.8,
-    #     min_silhouette=0.05,
-    #     output_dir="granular_clusters_100"
-    # )
-
-    # Configuration 3: Cuisine-focused clustering
-    # analyzer, clusters = main_recursive_kmeans(
-    #     recipes_path,
-    #     target_clusters=50,
-    #     max_heterogeneity=0.4,  # Low tolerance for mixed cuisines
-    #     min_silhouette=0.1,
-    #     discrimination_weight=0.9,  # Heavily weight discrimination
-    #     output_dir="cuisine_focused_50"
-    # )
-
-    # Configuration 4: Feature-rich clustering
-    # analyzer, clusters = main_recursive_kmeans(
-    #     recipes_path,
-    #     target_clusters=50,
-    #     top_k_itemsets=300,  # More features
-    #     support_min=0.01,    # Include rarer itemsets
-    #     support_max=0.7,     # Include more common itemsets
-    #     k_values=[2, 3, 4, 5],  # Try more split options
-    #     output_dir="feature_rich_50"
-    # )
-
-    # Example usage:
-    # For no target (adaptive): main_recursive_kmeans(recipes_path)
-    # For 50 clusters: main_recursive_kmeans(recipes_path, target_clusters=50)
-    # For 25 clusters: main_recursive_kmeans(recipes_path, target_clusters=25)
-
-    # main_recursive_kmeans(recipes_path, target_clusters=50)  # Target 50 clusters

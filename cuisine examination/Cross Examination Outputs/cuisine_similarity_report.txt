@@ -1,0 +1,117 @@
+Top 5 most similar cuisine pairs:
+
+italian - french: 0.820
+italian - mexican: 0.792
+southern_us - italian: 0.792
+southern_us - mexican: 0.788
+southern_us - french: 0.768
+
+Top 5 most similar cuisine triplets:
+
+southern_us - italian - french: 0.793
+italian - mexican - french: 0.791
+southern_us - italian - mexican: 0.791
+southern_us - mexican - french: 0.772
+spanish - italian - french: 0.769
+
+Top similar cuisines per cuisine:
+
+greek:
+  italian: 0.730
+  moroccan: 0.729
+  french: 0.713
+
+southern_us:
+  italian: 0.792
+  mexican: 0.788
+  french: 0.768
+
+filipino:
+  vietnamese: 0.714
+  thai: 0.695
+  chinese: 0.692
+
+indian:
+  thai: 0.736
+  italian: 0.726
+  mexican: 0.725
+
+jamaican:
+  brazilian: 0.682
+  filipino: 0.671
+  indian: 0.670
+
+spanish:
+  french: 0.750
+  italian: 0.735
+  mexican: 0.724
+
+italian:
+  french: 0.820
+  mexican: 0.792
+  southern_us: 0.792
+
+mexican:
+  italian: 0.792
+  southern_us: 0.788
+  french: 0.761
+
+chinese:
+  thai: 0.757
+  vietnamese: 0.752
+  japanese: 0.745
+
+british:
+  irish: 0.739
+  french: 0.704
+  italian: 0.697
+
+thai:
+  vietnamese: 0.760
+  chinese: 0.757
+  indian: 0.736
+
+vietnamese:
+  thai: 0.760
+  chinese: 0.752
+  japanese: 0.722
+
+cajun_creole:
+  southern_us: 0.740
+  italian: 0.737
+  mexican: 0.734
+
+brazilian:
+  jamaican: 0.682
+  spanish: 0.681
+  indian: 0.666
+
+french:
+  italian: 0.820
+  southern_us: 0.768
+  mexican: 0.761
+
+japanese:
+  chinese: 0.745
+  thai: 0.736
+  vietnamese: 0.722
+
+irish:
+  british: 0.739
+  russian: 0.694
+  southern_us: 0.692
+
+korean:
+  japanese: 0.716
+  chinese: 0.707
+  thai: 0.705
+
+moroccan:
+  greek: 0.729
+  indian: 0.723
+  spanish: 0.712
+
+russian:
+  irish: 0.694
+  british: 0.693
+  indian: 0.680

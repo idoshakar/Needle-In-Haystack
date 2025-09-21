@@ -1,0 +1,7 @@
+Cuisine: Vietnamese
+Total recipes: 825
+Total ingredients: 10457
+Average ingredients per recipe: 12.68
+Recipe length std dev: 5.25
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.29

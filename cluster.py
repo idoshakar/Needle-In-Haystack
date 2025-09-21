@@ -13,9 +13,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# Import your existing classes
 from Hierarchial_clustering import FrequentItemsetClustering
-
 
 class ComprehensiveClusteringAnalysis:
     def __init__(self, data_path, cuisine_data_path):
@@ -44,7 +42,6 @@ class ComprehensiveClusteringAnalysis:
         with open(self.cuisine_data_path, 'r', encoding='utf-8') as f:
             cuisine_data = json.load(f)
 
-        # Create cuisine labels array matching transaction indices
         self.cuisine_labels = []
         recipe_id_to_cuisine = {recipe['id']: recipe['cuisine'] for recipe in cuisine_data}
 
@@ -54,14 +51,12 @@ class ComprehensiveClusteringAnalysis:
             else:
                 self.cuisine_labels.append('unknown')
 
-        # Create cuisine clusters dictionary
         self.cuisine_to_recipes = defaultdict(list)
         for idx, cuisine in enumerate(self.cuisine_labels):
             self.cuisine_to_recipes[cuisine].append(idx)
 
         print(f"Loaded {len(self.transactions)} recipes across {len(self.cuisine_to_recipes)} cuisines")
 
-        # Print cuisine distribution
         cuisine_counts = Counter(self.cuisine_labels)
         print("\nCuisine distribution:")
         for cuisine, count in cuisine_counts.most_common(10):
@@ -92,7 +87,6 @@ class ComprehensiveClusteringAnalysis:
         cuisine_counts = Counter(self.cuisine_labels)
         total_recipes = len(self.cuisine_labels)
 
-        # Calculate samples per cuisine (proportional)
         samples_per_cuisine = {}
         total_assigned = 0
 
@@ -104,9 +98,7 @@ class ComprehensiveClusteringAnalysis:
             samples_per_cuisine[cuisine] = n_samples
             total_assigned += n_samples
 
-        # Adjust if we're over/under the target sample_size
         if total_assigned != sample_size:
-            # Distribute remaining samples to largest cuisines
             remaining = sample_size - total_assigned
             largest_cuisines = sorted(samples_per_cuisine.keys(),
                                       key=lambda x: cuisine_counts[x], reverse=True)
@@ -122,18 +114,14 @@ class ComprehensiveClusteringAnalysis:
                         samples_per_cuisine[cuisine] -= 1
                         remaining += 1
 
-        # Sample from each cuisine
         selected_indices = []
 
         for cuisine, n_samples in samples_per_cuisine.items():
-            # Get all indices for this cuisine
             cuisine_indices = [i for i, c in enumerate(self.cuisine_labels) if c == cuisine]
 
             if len(cuisine_indices) <= n_samples:
-                # Take all if we need more than available
                 selected_indices.extend(cuisine_indices)
             else:
-                # Random sample from this cuisine
                 sampled = np.random.choice(cuisine_indices, n_samples, replace=False)
                 selected_indices.extend(sampled)
 
@@ -159,7 +147,6 @@ class ComprehensiveClusteringAnalysis:
             return []
 
         if strategy == 'coverage':
-            # Your existing cumulative coverage approach
             sorted_itemsets = sorted(frequent_itemsets.items(),
                                      key=lambda x: x[1]['support'], reverse=True)
             cumulative_coverage = 0
@@ -173,21 +160,17 @@ class ComprehensiveClusteringAnalysis:
             return selected
 
         elif strategy == 'top_support':
-            # Simply take top K by support
             sorted_itemsets = sorted(frequent_itemsets.items(),
                                      key=lambda x: x[1]['support'], reverse=True)
             return [data['items'] for item, data in sorted_itemsets[:top_k]]
 
         elif strategy == 'balanced':
-            # Mix of high and medium support itemsets
             sorted_itemsets = sorted(frequent_itemsets.items(),
                                      key=lambda x: x[1]['support'], reverse=True)
 
-            # Take top 50% of top_k from high support
             high_support_count = int(top_k * 0.5)
             selected = [data['items'] for item, data in sorted_itemsets[:high_support_count]]
 
-            # Fill remaining with medium support items
             remaining_count = top_k - high_support_count
             medium_start = high_support_count
             medium_end = min(medium_start + remaining_count, len(sorted_itemsets))
@@ -202,12 +185,10 @@ class ComprehensiveClusteringAnalysis:
         print(f"Running experiment: {itemset_size}-itemsets, strategy: {strategy}")
         print(f"{'=' * 60}")
 
-        # Load frequent itemsets
         frequent_itemsets = self.load_frequent_itemsets(itemset_size)
         if frequent_itemsets is None:
             return None
 
-        # Select itemsets
         selected_itemsets = self.select_itemsets_by_strategy(
             frequent_itemsets, strategy=strategy, top_k=200  # Increased from 500
         )
@@ -237,7 +218,6 @@ class ComprehensiveClusteringAnalysis:
             sample_cuisine_labels = self.cuisine_labels
             sample_indices = np.arange(len(self.transactions))
 
-        # Initialize and run clustering
         clustering = FrequentItemsetClustering(selected_itemsets, sample_transactions)
         feature_matrix = clustering.create_feature_matrix()
         clustering.perform_clustering(linkage_method='average', distance_metric='jaccard')
@@ -282,7 +262,6 @@ class ComprehensiveClusteringAnalysis:
     def evaluate_clustering_vs_cuisine(self, clusters, cuisine_labels, n_clusters):
         """Evaluate how well clusters match cuisine labels"""
 
-        # Remove any 'unknown' cuisine labels for evaluation
         valid_indices = [i for i, cuisine in enumerate(cuisine_labels) if cuisine != 'unknown']
         if not valid_indices:
             return {'error': 'No valid cuisine labels'}
@@ -290,16 +269,13 @@ class ComprehensiveClusteringAnalysis:
         valid_clusters = [clusters[i] for i in valid_indices]
         valid_cuisines = [cuisine_labels[i] for i in valid_indices]
 
-        # Convert cuisine labels to numeric
         unique_cuisines = list(set(valid_cuisines))
         cuisine_to_num = {cuisine: i for i, cuisine in enumerate(unique_cuisines)}
         numeric_cuisines = [cuisine_to_num[cuisine] for cuisine in valid_cuisines]
 
-        # Calculate metrics
         ari = adjusted_rand_score(numeric_cuisines, valid_clusters)
         nmi = normalized_mutual_info_score(numeric_cuisines, valid_clusters)
 
-        # Calculate cluster purity
         cluster_purities = []
         cluster_cuisine_dist = {}
 
@@ -308,7 +284,6 @@ class ComprehensiveClusteringAnalysis:
             cluster_cuisines = [valid_cuisines[i] for i in cluster_indices]
             cuisine_counts = Counter(cluster_cuisines)
 
-            # Purity = most common cuisine / cluster size
             most_common_count = cuisine_counts.most_common(1)[0][1]
             purity = most_common_count / len(cluster_cuisines)
             cluster_purities.append(purity)
@@ -359,18 +334,15 @@ class ComprehensiveClusteringAnalysis:
         clusters = experiment_result['cluster_results'][n_clusters]['clusters']
         cuisine_labels = experiment_result['cuisine_labels']
 
-        # Dimensionality reduction
         if method == 'tsne':
             reducer = TSNE(n_components=2, random_state=42, perplexity=min(30, len(feature_matrix) // 4))
-        else:  # PCA
+        else:
             reducer = PCA(n_components=2, random_state=42)
 
-        # Standardize features for better reduction
         scaler = StandardScaler()
         scaled_features = scaler.fit_transform(feature_matrix.astype(float))
         coords_2d = reducer.fit_transform(scaled_features)
 
-        # Create DataFrame for plotting
         plot_df = pd.DataFrame({
             'x': coords_2d[:, 0],
             'y': coords_2d[:, 1],
@@ -379,7 +351,6 @@ class ComprehensiveClusteringAnalysis:
             'index': range(len(clusters))
         })
 
-        # Create plotly scatter plot
         fig = px.scatter(
             plot_df, x='x', y='y',
             color='cluster',
@@ -405,7 +376,6 @@ class ComprehensiveClusteringAnalysis:
         clusters = experiment_result['cluster_results'][n_clusters]['clusters']
         cuisine_labels = experiment_result['cuisine_labels']
 
-        # Create confusion matrix
         unique_cuisines = sorted(list(set(cuisine_labels)))
         unique_clusters = sorted(list(set(clusters)))
 
@@ -419,10 +389,8 @@ class ComprehensiveClusteringAnalysis:
             for j, cuisine in enumerate(unique_cuisines):
                 confusion_matrix[i, j] = cuisine_counts.get(cuisine, 0)
 
-        # Normalize by cluster size
         normalized_matrix = confusion_matrix / confusion_matrix.sum(axis=1, keepdims=True)
 
-        # Create heatmap
         fig, ax = plt.subplots(figsize=(12, 8))
         sns.heatmap(
             normalized_matrix,
@@ -445,7 +413,6 @@ class ComprehensiveClusteringAnalysis:
     def create_metrics_comparison_plot(self):
         """Create comparison plot of metrics across all experiments"""
 
-        # Collect all metrics
         metrics_data = []
 
         for strategy in self.results:
@@ -465,7 +432,6 @@ class ComprehensiveClusteringAnalysis:
 
         df = pd.DataFrame(metrics_data)
 
-        # Create subplots
         fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
         metrics = ['ari', 'nmi', 'purity']
@@ -502,12 +468,10 @@ class ComprehensiveClusteringAnalysis:
         print("COMPREHENSIVE CLUSTERING ANALYSIS REPORT")
         print("=" * 80)
 
-        # Overall summary
         total_experiments = sum(len(self.results[strategy]) for strategy in self.results)
         print(f"\nTotal experiments conducted: {total_experiments}")
         print(f"Strategies tested: {list(self.results.keys())}")
 
-        # Find best performing combinations
         best_results = []
 
         for strategy in self.results:
@@ -526,7 +490,6 @@ class ComprehensiveClusteringAnalysis:
                             'combined_score': (metrics['ari'] + metrics['nmi'] + metrics['purity']) / 3
                         })
 
-        # Sort by combined score
         best_results.sort(key=lambda x: x['combined_score'], reverse=True)
 
         print(f"\nTOP 10 PERFORMING CONFIGURATIONS:")
@@ -537,7 +500,6 @@ class ComprehensiveClusteringAnalysis:
                   f"ARI={result['ari']:.3f}, NMI={result['nmi']:.3f}, "
                   f"Purity={result['purity']:.3f} (Combined: {result['combined_score']:.3f})")
 
-        # Analysis by itemset size
         print(f"\nPERFORMANCE BY ITEMSET SIZE:")
         print("-" * 30)
 
@@ -558,19 +520,15 @@ class ComprehensiveClusteringAnalysis:
 def main():
     """Main execution function"""
 
-    # Initialize analysis
     analyzer = ComprehensiveClusteringAnalysis(
         data_path="ingredient_matching_adaptive_results.json",
         cuisine_data_path="whats-cooking/train.json"
     )
 
-    # Run comprehensive analysis
     analyzer.run_comprehensive_analysis(sample_size=5000)
 
-    # Generate report
     best_results = analyzer.generate_comprehensive_report()
 
-    # Create visualizations for best performing configuration
     best_config = best_results[0]
     best_experiment = analyzer.results[best_config['strategy']][best_config['itemset_size']]
 
@@ -579,21 +537,18 @@ def main():
     print(f"Itemset size: {best_config['itemset_size']}")
     print(f"Number of clusters: {best_config['n_clusters']}")
 
-    # Create scatter plot
     scatter_fig = analyzer.create_cluster_scatter_plot(
         best_experiment, n_clusters=best_config['n_clusters']
     )
     if scatter_fig:
         scatter_fig.show()
 
-    # Create confusion matrix
     confusion_fig = analyzer.create_cuisine_cluster_comparison(
         best_experiment, n_clusters=best_config['n_clusters']
     )
     if confusion_fig:
         plt.show()
 
-    # Create metrics comparison
     #metrics_fig = analyzer.create_metrics_comparison_plot()
     plt.show()
 

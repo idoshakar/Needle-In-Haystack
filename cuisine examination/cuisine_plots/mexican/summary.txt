@@ -1,0 +1,7 @@
+Cuisine: Mexican
+Total recipes: 6438
+Total ingredients: 70029
+Average ingredients per recipe: 10.88
+Recipe length std dev: 4.66
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.19

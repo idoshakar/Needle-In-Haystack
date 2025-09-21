@@ -1,0 +1,7 @@
+Cuisine: Russian
+Total recipes: 489
+Total ingredients: 5000
+Average ingredients per recipe: 10.22
+Recipe length std dev: 4.05
+Most common food group: Baking goods
+Ingredient rarity index: 0.33

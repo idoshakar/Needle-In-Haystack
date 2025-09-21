@@ -1,0 +1,7 @@
+Cuisine: Filipino
+Total recipes: 755
+Total ingredients: 7550
+Average ingredients per recipe: 10.00
+Recipe length std dev: 3.85
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.25

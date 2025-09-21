@@ -1,0 +1,7 @@
+Cuisine: Moroccan
+Total recipes: 821
+Total ingredients: 10599
+Average ingredients per recipe: 12.91
+Recipe length std dev: 4.80
+Most common food group: Herbs and Spices
+Ingredient rarity index: 0.29

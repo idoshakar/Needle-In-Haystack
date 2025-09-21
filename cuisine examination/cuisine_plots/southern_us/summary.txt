@@ -1,0 +1,7 @@
+Cuisine: Southern_us
+Total recipes: 4320
+Total ingredients: 41623
+Average ingredients per recipe: 9.63
+Recipe length std dev: 3.87
+Most common food group: Baking goods
+Ingredient rarity index: 0.20
